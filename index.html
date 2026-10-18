@@ -188,6 +188,13 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 .diya-label .hi { font-size: .95rem; color: var(--kumkum); }
 .gate-hi { display: block; font-family: var(--deva); font-style: normal; font-size: 1rem; color: var(--kumkum); }
 
+/* simplified: no tap-to-bless extras or progress lamps */
+.lamps, .tapzone, .hint-pill { display: none !important; }
+/* phones: only the page in view animates, so Android keeps every background image in memory */
+.bg.kenburns { animation-play-state: paused; }
+.screen.live .bg.kenburns { animation-play-state: running; }
+@media (max-width: 700px) { .backdrop { display: none; } }
+
 /* royal scrolls: parchment mounted in maroon silk and gold, between engraved gold rollers with crimson tassels */
 @property --u { syntax: '<number>'; inherits: true; initial-value: 1; }
 .scroll { --u: 1; position: relative; width: min(calc(100% - 34px), 24.5rem); margin-inline: auto; padding-block: 15px; box-sizing: border-box;
@@ -460,7 +467,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 <main class="reel" id="reel">
 
   <!-- 1. The closed gate: call to action -->
-  <section class="screen" id="gate" aria-label="The gate">
+  <section class="screen live" id="gate" aria-label="The gate">
     <div class="bg closed" style="background-image:url('gate-closed.jpg')"></div>
     <div class="bg open" style="background-image:url('gate-open.jpg')"></div>
     <div class="bloom"></div>
@@ -499,8 +506,6 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   <!-- 2. Lord Ganesha's blessing -->
   <section class="screen" id="ganesh" aria-label="Lord Ganesha's blessing">
     <div class="bg kenburns" style="background-image:url('gate-open.jpg')"><canvas class="ganesha-fx" id="ganeshaFx" aria-hidden="true"></canvas></div>
-    <button class="tapzone" type="button" data-bless="ganesh" style="height:44%" aria-label="Receive Ganesha's blessing"></button>
-    <span class="hint-pill" data-hint="ganesh" style="top:calc(env(safe-area-inset-top,0px) + 56px)" hidden><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Touch Ganesha for his blessing<span class="hi" lang="hi">आशीर्वाद के लिए गणेश जी को छुएँ</span></span></span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -520,8 +525,6 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   <section class="screen" id="blessings" aria-label="Blessings">
     <div class="bg kenburns" style="background-image:url('shree-chakra.jpg')"></div>
     <div class="radiance" id="radiance" aria-hidden="true"></div>
-    <button class="tapzone" type="button" data-bless="chakra" style="height:40%" aria-label="Touch the Shree Chakra"></button>
-    <span class="hint-pill" data-hint="chakra" style="top:calc(env(safe-area-inset-top,0px) + 56px)"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Touch the Shree Chakra<span class="hi" lang="hi">श्री चक्र को छुएँ</span></span></span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -543,8 +546,6 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   <!-- 4. Shiv–Parvati Sangam -->
   <section class="screen" id="sangam" aria-label="The invitation">
     <div class="bg kenburns" style="background-image:url('shiv-parvati.jpg')"></div>
-    <button class="tapzone" type="button" data-bless="petals" style="height:36%" aria-label="Shower petals on the couple"></button>
-    <span class="hint-pill" data-hint="petals" id="petalHint" style="top:calc(env(safe-area-inset-top,0px) + 56px)"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Tap to shower blessings · 0/7<span class="hi" lang="hi">पुष्प-वर्षा के लिए छुएँ · 0/7</span></span></span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -622,14 +623,11 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
           <div class="rsvp-row"><span class="who">Smt. Sweety Dhar</span></div>
           <div class="rsvp-row"><span class="who">Himani Dhar</span></div>
         </div>
-        <div class="diya-hold">
-          <button class="diya-btn" id="diyaBtn" type="button" aria-label="Press and hold to light a diya with your blessing"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></button>
-          <span class="diya-label" id="diyaLabel">Press &amp; hold the diya<br>to light your blessing<span class="hi" lang="hi">दीया जलाने के लिए दबाकर रखें</span></span>
-        </div>
         </div>
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
       </div>
     </div>
+    <a class="next" href="#finale" data-next="finale"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">With our blessings<span class="hi" lang="hi">आगे बढ़ें · धन्यवाद</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   </section>
 
   <!-- Finale: thank you -->
@@ -641,7 +639,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <div class="paper zone">
         <p class="mantra" lang="sa" style="margin:0">॥ धन्यवाद ॥</p>
         <p class="thanks-name" id="thanksName">Thank you</p>
-        <p class="lede" style="margin:0;font-size:1.05rem">Your diya now burns in our saga.<br>The gates will open again for you<br>on the 24th of January.</p>
+        <p class="lede" style="margin:0;font-size:1.05rem">Your blessings now live in our saga.<br>The gates will open again for you<br>on the 24th of January.</p>
         <div class="rule" aria-hidden="true"></div>
         <p class="fine" style="margin:0">With love and gratitude,<br><span style="color:var(--kumkum)">Shivani &amp; Gaurav</span><br>and the Dhar family</p>
         <p class="hash" style="margin:.1rem 0 0;font-size:1.7rem">#ShivGauriSaga</p>
@@ -1166,6 +1164,7 @@ document.querySelectorAll('[data-bless]').forEach(z => z.addEventListener('click
 /* ---------- light a diya: press and hold ---------- */
 (() => {
   const btn = document.getElementById('diyaBtn'), label = document.getElementById('diyaLabel');
+  if (!btn) return;
   let p = 0, holding = false, done = false, raf = 0, t0 = 0;
   const HOLD = 1600;
   const set = v => btn.style.setProperty('--p', v.toFixed(3));
@@ -1195,6 +1194,8 @@ document.querySelectorAll('[data-bless]').forEach(z => z.addEventListener('click
 /* ---------- what happens as each page arrives ---------- */
 let finaleShown = false;
 window.onPage = id => {
+  document.querySelectorAll('.screen.live').forEach(x => x.classList.remove('live'));
+  const cur = document.getElementById(id); if (cur) cur.classList.add('live');
   lampsBox.classList.toggle('show', id !== 'gate');
   const i = LAMP_ORDER.indexOf(id); if (i >= 0) lightLamp(i);
   if (id === 'ganesh' && hints.ganesh && !hints.ganesh.classList.contains('done')) setTimeout(() => { if (currentId === 'ganesh') hints.ganesh.hidden = false; }, 4600);
