@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6b1424">
+<meta name="description" content="Shivani & Gaurav invite you to the ShivGauri Saga — Maenziraat, Devgon and Lagan, 24–25 January 2027, Faridabad.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The ShivGauri Saga · Shivani & Gaurav">
+<meta property="og:description" content="Sound the shankh and step through the gates. 24–25 January 2027 · Faridabad">
+<meta property="og:image" content="https://shivanidhr03.github.io/shivgaurisaga/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://shivanidhr03.github.io/shivgaurisaga/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png">
+<style>*,*::before,*::after{box-sizing:border-box} html,body{margin:0;height:100%} img{max-width:100%} [hidden]{display:none!important}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>ShivGauri Saga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Tiro+Devanagari+Sanskrit&display=swap">
+<style>
+/* Layout: one 9:16 "panel" per screen, stacked with scroll-snap; the user's artwork is the page, text sits in the open space each panel leaves. Single deliberate theme (an invitation on paper and gold). */
+:root {
+  --kumkum: #6b1424;      /* primary ink: names, headings */
+  --gold: #8f6420;        /* secondary ink, rules, small caps */
+  --gold-lite: #c99b4a;   /* ornaments on dark */
+  --saffron: #d27a26;     /* buttons */
+  --paper: #fbf3e3;       /* card ground */
+  --paper-glass: rgba(251, 243, 227, .84);
+  --night: #24140d;       /* backdrop around the column on wide screens */
+  --display: "Marcellus", "Cormorant Garamond", Georgia, serif;
+  --body: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --deva: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", "Kohinoor Devanagari", serif;
+  color-scheme: light;
+}
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--night);
+  color: var(--kumkum);
+  font-family: var(--body);
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+}
+.reel {
+  height: 100dvh;
+  overflow: hidden;            /* pages change only on a tap */
+  touch-action: pan-y;
+}
+.screen {
+  position: relative;
+  width: min(100%, calc(100dvh * 9 / 16));
+  height: 100dvh;
+  margin-inline: auto;
+  overflow-x: hidden;
+  overflow-y: auto;            /* only when a small phone needs it, within the page */
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  box-sizing: border-box;
+  isolation: isolate;
+}
+.bg {
+  position: absolute; inset: 0; z-index: -1;
+  background-size: cover; background-position: center;
+}
+.bg.kenburns { animation: drift 24s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: scale(1.0); } to { transform: scale(1.06) translateY(-1%); } }
+@media (prefers-reduced-motion: reduce) { .bg.kenburns { animation: none; } }
+
+/* text zones: positioned by where each panel leaves open space */
+.zone { display: flex; flex-direction: column; align-items: center; text-align: center; gap: .55rem; width: 100%; }
+.zone.bottom { margin-top: auto; padding-bottom: max(5dvh, 28px); }
+.zone.top { padding-top: 7dvh; }
+.zone.mid { margin-block: auto; }
+.glass {
+  background: var(--paper-glass);
+  -webkit-backdrop-filter: blur(6px) saturate(1.1);
+  backdrop-filter: blur(6px) saturate(1.1);
+  border: 1px solid rgba(143, 100, 32, .45);
+  border-radius: 3px;
+  padding: 1.1rem 1.15rem 1.2rem;
+  box-shadow: 0 10px 30px rgba(60, 25, 10, .22);
+  max-width: 26rem;
+  box-sizing: border-box;
+}
+.glass::before {
+  content: ""; display: block; height: 1px; margin: -.45rem auto .7rem; width: 40%;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.eyebrow { font-family: var(--display); font-size: .78rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+.mantra { font-family: var(--deva); color: var(--kumkum); font-size: 1.12rem; line-height: 1.7; }
+.mantra.small { font-size: 1rem; }
+.lede { font-style: italic; font-weight: 600; font-size: 1.1rem; line-height: 1.4; color: var(--kumkum); text-wrap: balance; }
+.fine { font-weight: 600; font-size: 1rem; line-height: 1.45; color: var(--gold); }
+.names { font-family: var(--body); font-style: italic; font-weight: 600; font-size: clamp(2.6rem, 11vw, 3.4rem); line-height: 1; color: var(--kumkum); }
+.amp { font-style: italic; font-size: 1.4rem; color: var(--gold); line-height: 1; }
+h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-spacing: .06em; color: var(--kumkum); margin: 0; line-height: 1.1; text-wrap: balance; }
+.sub { font-style: italic; font-weight: 600; font-size: 1.08rem; color: var(--gold); }
+.rule { width: 9rem; height: 14px; background:
+  linear-gradient(var(--gold), var(--gold)) left 50% / 42% 1px no-repeat,
+  linear-gradient(var(--gold), var(--gold)) right 50% / 42% 1px no-repeat; position: relative; }
+.rule::after { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; background: var(--gold); transform: translate(-50%, -50%) rotate(45deg); }
+
+.blessing-list { display: grid; gap: .15rem; font-weight: 600; font-size: 1.02rem; line-height: 1.35; color: var(--kumkum); }
+.blessing-list .side { font-family: var(--display); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: .35rem; }
+
+/* event details */
+.facts { display: grid; gap: .3rem; font-size: 1.12rem; font-weight: 600; color: var(--kumkum); line-height: 1.3; }
+.facts .when { font-family: var(--display); font-weight: 400; font-size: 1.25rem; letter-spacing: .04em; }
+.facts .where { color: var(--gold); }
+.dress { display: inline-flex; align-items: center; gap: .5rem; font-style: italic; font-weight: 600; color: var(--gold); font-size: 1rem; }
+.sw { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,.15); display: inline-block; }
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin-top: .35rem; }
+.btn {
+  font-family: var(--display); font-size: .82rem; letter-spacing: .12em; text-transform: uppercase;
+  text-decoration: none; color: #fff8ec; background: var(--kumkum);
+  padding: .62rem .9rem; border-radius: 2px; border: 1px solid var(--kumkum);
+  display: inline-flex; align-items: center; gap: .45rem; cursor: pointer;
+}
+.btn.ghost { background: transparent; color: var(--kumkum); }
+.btn:hover { filter: brightness(1.12); }
+.btn:focus-visible, .gate-btn:focus-visible, .sound:focus-visible { outline: 2px solid var(--saffron); outline-offset: 3px; }
+.btn svg { width: 15px; height: 15px; }
+
+/* ceremonies: tighter stack so text stays on the open parchment, with a paper halo for legibility */
+.event .zone { gap: .38rem; }
+.event .zone.bottom { padding-bottom: max(3.5dvh, 20px); }
+.event h2, .event .sub, .event .facts, .event .dress {
+  text-shadow: 0 0 6px var(--paper), 0 0 14px var(--paper), 0 0 22px rgba(251, 243, 227, .9);
+}
+.event .actions { gap: .35rem; margin-top: .2rem; flex-wrap: nowrap; }
+.event .actions-label { font-family: var(--display); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); text-shadow: 0 0 6px var(--paper), 0 0 12px var(--paper); }
+.event .btn { padding: .52rem .7rem; font-size: .74rem; letter-spacing: .1em; }
+.event .facts { gap: .15rem; }
+.event h2 { font-size: 1.9rem; }
+
+/* text placed straight on a panel's open floor */
+.onpaper .mantra, .onpaper .lede {
+  text-shadow: 0 0 6px var(--paper), 0 0 14px var(--paper), 0 0 22px rgba(251, 243, 227, .9);
+}
+
+/* RSVP */
+.rsvp { display: grid; gap: .45rem; margin-top: .4rem; padding: .9rem 1.1rem; border-block: 1px solid rgba(143, 100, 32, .4); width: min(100%, 22rem); }
+.rsvp-row { display: flex; flex-wrap: wrap; justify-content: center; gap: .2rem .8rem; font-size: 1.05rem; font-weight: 600; }
+.rsvp-row .who { color: var(--kumkum); }
+.rsvp-row .num { color: var(--gold); font-variant-numeric: tabular-nums; user-select: all; }
+
+/* next-step call to action on every screen */
+.next {
+  align-self: center; margin-bottom: max(2.2dvh, 14px);
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--display); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+  color: #fff8ec; background: rgba(107, 20, 36, .88); border: 1px solid var(--gold-lite);
+  padding: .55rem 1rem; border-radius: 999px; box-shadow: 0 6px 18px rgba(60, 20, 8, .3);
+  animation: nudge 2.2s ease-in-out infinite;
+}
+.next svg { width: 16px; height: 16px; }
+.next:focus-visible { outline: 2px solid var(--saffron); outline-offset: 3px; }
+@keyframes nudge { 50% { transform: translateY(4px); } }
+@media (prefers-reduced-motion: reduce) { .next { animation: none; } }
+.screen .zone.bottom { padding-bottom: 14px; }
+.event .zone.bottom { padding-bottom: 10px; }
+#devgon .next { margin-top: auto; }
+.gate-hint { font-family: var(--display); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+
+/* royal scrolls: parchment mounted in maroon silk and gold, between engraved gold rollers with crimson tassels */
+@property --u { syntax: '<number>'; inherits: true; initial-value: 1; }
+.scroll { --u: 1; position: relative; width: min(calc(100% - 34px), 24.5rem); margin-inline: auto; padding-block: 15px; box-sizing: border-box;
+  transition: --u 2.1s cubic-bezier(.33, .0, .2, 1), transform 1.5s cubic-bezier(.18, 1.12, .32, 1); }
+.scroll.rolled { --u: 0; transition: transform 1.5s cubic-bezier(.18, 1.12, .32, 1); }
+.scroll.aloft { transform: translateY(-120vh) rotate(-4deg); transition: none !important; }
+/* a single sweep of golden light once the card is open */
+.scroll::after { content: ""; position: absolute; inset: 15px 0; z-index: 3; pointer-events: none; opacity: 0;
+  background: linear-gradient(105deg, transparent 32%, rgba(255, 246, 214, .7) 48%, rgba(255, 224, 150, .35) 54%, transparent 68%);
+  background-size: 260% 100%; background-position: 160% 0; mix-blend-mode: screen; }
+.scroll.sheen::after { animation: sheen 1.8s ease-out forwards; }
+@keyframes sheen { 0% { opacity: 1; background-position: 160% 0; } 100% { opacity: 0; background-position: -70% 0; } }
+.scroll.landing .tassel { animation: sway 1.6s ease-out; transform-origin: 50% 0; }
+@keyframes sway { 0% { transform: rotate(0); } 25% { transform: rotate(14deg); } 50% { transform: rotate(-9deg); } 75% { transform: rotate(4deg); } 100% { transform: rotate(0); } }
+.scroll .paper {
+  position: relative; box-sizing: border-box; padding: 2.05rem 1.35rem 1.4rem; gap: .45rem;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 251, 238, .95), transparent 62%),
+    radial-gradient(ellipse at 50% 100%, rgba(190, 140, 70, .2), transparent 55%),
+    linear-gradient(90deg, #dcbc84 0%, #f4e4c0 7%, #fbf0d8 50%, #f4e4c0 93%, #dcbc84 100%);
+  box-shadow:
+    inset 0 0 0 5px var(--kumkum), inset 0 0 0 7px #d4a64e, inset 0 0 0 11px #f6e8c8, inset 0 0 0 12px #a8742a,
+    0 16px 36px rgba(55, 20, 8, .38);
+  clip-path: inset(0 0 calc((1 - var(--u)) * 100%) 0);
+}
+.scroll .paper::before {
+  content: ""; position: absolute; inset: 14px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg transform='rotate(0 20 20)' fill='none' stroke='%23b8862e' stroke-width='1.6'%3E%3Cpath d='M3 36 C3 16 16 3 36 3'/%3E%3Cpath d='M8 36 C8 20 20 8 36 8' stroke-width='.9'/%3E%3Cpath d='M3 22 q8 -2 10 -10 q-8 2 -10 10z' fill='%23b8862e'/%3E%3Ccircle cx='13' cy='13' r='2.2' fill='%236b1424' stroke='none'/%3E%3C/g%3E%3C/svg%3E") left top / 30px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg transform='rotate(90 20 20)' fill='none' stroke='%23b8862e' stroke-width='1.6'%3E%3Cpath d='M3 36 C3 16 16 3 36 3'/%3E%3Cpath d='M8 36 C8 20 20 8 36 8' stroke-width='.9'/%3E%3Cpath d='M3 22 q8 -2 10 -10 q-8 2 -10 10z' fill='%23b8862e'/%3E%3Ccircle cx='13' cy='13' r='2.2' fill='%236b1424' stroke='none'/%3E%3C/g%3E%3C/svg%3E") right top / 30px no-repeat,
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg transform='rotate(270 20 20)' fill='none' stroke='%23b8862e' stroke-width='1.6'%3E%3Cpath d='M3 36 C3 16 16 3 36 3'/%3E%3Cpath d='M8 36 C8 20 20 8 36 8' stroke-width='.9'/%3E%3Cpath d='M3 22 q8 -2 10 -10 q-8 2 -10 10z' fill='%23b8862e'/%3E%3Ccircle cx='13' cy='13' r='2.2' fill='%236b1424' stroke='none'/%3E%3C/g%3E%3C/svg%3E") left bottom / 30px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg transform='rotate(180 20 20)' fill='none' stroke='%23b8862e' stroke-width='1.6'%3E%3Cpath d='M3 36 C3 16 16 3 36 3'/%3E%3Cpath d='M8 36 C8 20 20 8 36 8' stroke-width='.9'/%3E%3Cpath d='M3 22 q8 -2 10 -10 q-8 2 -10 10z' fill='%23b8862e'/%3E%3Ccircle cx='13' cy='13' r='2.2' fill='%236b1424' stroke='none'/%3E%3C/g%3E%3C/svg%3E") right bottom / 30px no-repeat;
+}
+.scroll .paper::after {
+  content: ""; position: absolute; top: 15px; left: 50%; width: 112px; height: 24px; transform: translateX(-50%);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 26'%3E%3Cg fill='%23b8862e'%3E%3Cpath d='M60 2 C64 9 64 15 60 22 C56 15 56 9 60 2z'/%3E%3Cpath d='M60 22 C52 18 47 12 46 5 C53 8 58 13 60 22z' opacity='.85'/%3E%3Cpath d='M60 22 C68 18 73 12 74 5 C67 8 62 13 60 22z' opacity='.85'/%3E%3Crect x='6' y='12' width='34' height='1.4'/%3E%3Crect x='80' y='12' width='34' height='1.4'/%3E%3Ccircle cx='43' cy='12.7' r='2'/%3E%3Ccircle cx='77' cy='12.7' r='2'/%3E%3C/g%3E%3Ccircle cx='60' cy='12' r='2.2' fill='%236b1424'/%3E%3C/svg%3E") center / contain no-repeat; pointer-events: none;
+}
+.scroll .paper > * { position: relative; z-index: 1; }
+.rod {
+  position: absolute; left: -12px; right: -12px; height: 22px; border-radius: 11px; z-index: 2;
+  background:
+    repeating-linear-gradient(90deg, rgba(92, 56, 12, .38) 0 2px, transparent 2px 22px),
+    linear-gradient(180deg, #fbe7b0 0%, #d9a647 30%, #a8701f 62%, #6b4210 100%);
+  box-shadow: 0 5px 12px rgba(45, 18, 4, .45), inset 0 1px 0 rgba(255, 245, 210, .7);
+}
+.rod::before, .rod::after {
+  content: ""; position: absolute; top: -7px; width: 24px; height: 36px;
+  border-radius: 50% 50% 46% 46% / 62% 62% 38% 38%;
+  background: radial-gradient(circle at 40% 30%, #fff0c4, #d6a24a 45%, #8a5617 80%, #5a3509);
+  box-shadow: 0 3px 6px rgba(45, 18, 4, .4);
+}
+.rod::before { left: -14px; } .rod::after { right: -14px; }
+.rod.top { top: 4px; }
+.rod.bottom { bottom: calc(4px + (1 - var(--u)) * (100% - 52px)); }
+.tassel { position: absolute; top: 18px; width: 9px; height: 34px; pointer-events: none;
+  background: linear-gradient(180deg, #d9a647 0 7px, #8e1b2f 7px 11px, #b0243a 11px);
+  clip-path: polygon(30% 0, 70% 0, 70% 30%, 100% 100%, 0 100%, 30% 30%); }
+.tassel.l { left: -6px; } .tassel.r { right: -6px; }
+.scroll .rule { margin-block: .1rem; }
+.scroll h2, .scroll .sub, .scroll .facts, .scroll .actions-label { text-shadow: none !important; }
+@media (prefers-reduced-motion: reduce) { .scroll { transition: none; } .scroll.sheen::after, .scroll.landing .tassel { animation: none; } }
+
+/* dress code: the real colours, bright and solid */
+.dress-code { display: grid; gap: .3rem; justify-items: center; }
+.dress-code .lbl { font-family: var(--display); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.chips { display: flex; gap: .45rem; flex-wrap: wrap; justify-content: center; }
+.chip { display: inline-flex; align-items: center; padding: .34rem .95rem; border-radius: 999px;
+  font-family: var(--display); font-size: .82rem; letter-spacing: .14em; text-transform: uppercase;
+  border: 2px solid #d4a64e; box-shadow: 0 3px 8px rgba(40, 15, 5, .3), inset 0 1px 0 rgba(255,255,255,.35); }
+
+/* page change: a dip into warm darkness, then the next page */
+.veil { position: fixed; inset: 0; z-index: 30; pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse at 50% 45%, #4a2010 0%, #1c0b05 60%, #0e0503 100%);
+  transition: opacity .6s ease; }
+.veil.on { opacity: 1; pointer-events: auto; }
+.screen::-webkit-scrollbar { display: none; }
+
+/* full-bleed: on wide screens the current panel glows, blurred, behind the invitation */
+.backdrop { position: fixed; inset: -6%; z-index: -2; pointer-events: none; background-size: cover; background-position: center;
+  filter: blur(34px) saturate(1.15) brightness(.78); transition: background-image .8s ease, opacity .8s ease; }
+.reel { position: relative; z-index: 0; }
+
+/* the shankh lock sealing the gate */
+.seal { position: absolute; left: 0; right: 0; top: 46%; height: 12px; transform: translateY(-50%); z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, #f6dc96, #c08a34 55%, #7a4d14); box-shadow: 0 3px 8px rgba(40, 15, 5, .45);
+  transition: opacity .9s ease, transform 1.2s ease; }
+.shankh-lock {
+  position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%); z-index: 3;
+  width: 116px; height: 116px; border-radius: 50%; cursor: pointer; padding: 0;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 38% 32%, #fff6d6 0%, #e7bd63 38%, #b07d2a 70%, #6e4512 100%);
+  border: 3px solid var(--kumkum);
+  box-shadow: 0 0 0 5px #d4a64e, 0 0 0 8px rgba(107, 20, 36, .85), 0 14px 34px rgba(30, 10, 2, .55);
+  transition: transform .5s ease, opacity .9s ease, box-shadow .5s ease;
+  animation: lockGlow 2.6s ease-in-out infinite;
+}
+.shankh-lock svg { width: 78px; height: 96px; filter: drop-shadow(0 2px 3px rgba(60, 25, 5, .45)); }
+.shankh-lock:focus-visible { outline: 3px solid var(--saffron); outline-offset: 8px; }
+@keyframes lockGlow { 50% { box-shadow: 0 0 0 5px #d4a64e, 0 0 0 8px rgba(107, 20, 36, .85), 0 0 46px 14px rgba(255, 214, 140, .75), 0 14px 34px rgba(30, 10, 2, .55); } }
+.lock-label {
+  position: absolute; left: 50%; top: calc(46% + 82px); transform: translateX(-50%); z-index: 3; white-space: nowrap;
+  font-family: var(--display); font-size: .74rem; letter-spacing: .18em; text-transform: uppercase;
+  color: #fff4dc; background: rgba(70, 14, 22, .82); border: 1px solid var(--gold-lite); padding: .4rem .85rem; border-radius: 999px;
+  transition: opacity .6s ease;
+}
+#gate.sounding .shankh-lock { transform: translate(-50%, -50%) scale(1.12); animation: none;
+  box-shadow: 0 0 0 5px #d4a64e, 0 0 0 8px rgba(107, 20, 36, .85), 0 0 90px 36px rgba(255, 222, 150, .9); }
+#gate.sounding .lock-label { opacity: 0; }
+#gate.opening .shankh-lock { opacity: 0; transform: translate(-50%, -50%) scale(1.5); pointer-events: none; }
+#gate.opening .seal { opacity: 0; transform: translateY(-50%) scaleX(1.25); }
+@media (prefers-reduced-motion: reduce) { .shankh-lock { animation: none; } }
+
+/* ceremony scroll extras */
+.line { font-style: italic; font-weight: 600; font-size: 1.02rem; line-height: 1.35; color: var(--kumkum); text-wrap: balance; margin: 0; }
+.dress-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; justify-content: center; }
+.dress-row .lbl { font-family: var(--display); font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.btn.tradition { background: linear-gradient(180deg, #f8e7bd, #e8c983); color: var(--kumkum); border-color: #b8862e; }
+
+/* tradition panel */
+.trad { border: 0; padding: 0 22px; box-sizing: border-box; background: transparent; max-width: min(100vw, 30rem); width: 100%; overflow: visible; }
+.trad::backdrop { background: rgba(28, 10, 4, .62); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.trad .scroll { width: 100%; }
+.trad .paper { text-align: left; align-items: stretch; max-height: 72dvh; overflow-y: auto; }
+.trad h3 { font-family: var(--display); font-weight: 400; font-size: 1.7rem; color: var(--kumkum); margin: 0; text-align: center; }
+.trad .sub { text-align: center; }
+.trad p { margin: 0; font-size: 1.04rem; line-height: 1.5; color: #3e2412; font-weight: 500; }
+.trad p b { color: var(--kumkum); font-weight: 700; }
+.trad .src { font-size: .9rem; color: var(--gold); font-weight: 600; text-align: center; }
+.trad .src a { color: var(--kumkum); }
+.trad .close { align-self: center; margin-top: .3rem; }
+
+/* the divine names within the couple's names: Shiva in Shivani, Gaura in Gaurav */
+.names.divine { position: relative; display: inline-flex; align-items: baseline; gap: 0; }
+.names.divine .hl { position: relative; font-weight: 700; color: var(--kumkum); letter-spacing: .01em;
+  text-shadow: 0 1px 0 rgba(255, 240, 200, .8), 0 0 18px rgba(212, 166, 78, .35); }
+.names.divine .hl::after { content: ""; position: absolute; left: 6%; right: 2%; bottom: -.06em; height: 2px;
+  background: linear-gradient(90deg, transparent, #c99b4a 20%, #c99b4a 80%, transparent); }
+.names.divine .rest { font-weight: 400; color: #a77a3c; }
+.names.divine .sym { position: absolute; left: 50%; top: -.76em; width: .52em; height: .74em; transform: translateX(-50%); }
+.names.divine .sym.lotus { width: .78em; height: .5em; top: -.52em; }
+
+/* things to remember */
+.notes { list-style: none; margin: .2rem 0 0; padding: 0; display: grid; gap: .55rem; text-align: left; width: 100%; }
+.notes li { display: grid; grid-template-columns: 34px 1fr; gap: .6rem; align-items: start; }
+.notes .ico { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: var(--kumkum);
+  background: radial-gradient(circle at 40% 35%, #fff6d6, #e8c983 70%, #c99b4a); box-shadow: inset 0 0 0 1px #a8742a; }
+.notes .ico svg { width: 19px; height: 19px; }
+.notes .t { display: block; font-family: var(--display); font-weight: 400; font-size: .86rem; letter-spacing: .1em; text-transform: uppercase; color: var(--kumkum); }
+.notes .d { display: block; font-size: .95rem; line-height: 1.32; color: #4a2c14; font-weight: 500; }
+.notes .d b { color: var(--kumkum); font-weight: 700; }
+
+/* Ganesha taking form in the doorway */
+.ganesha-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* gate */
+.gate-btn {
+  font-family: var(--display); font-size: 1rem; letter-spacing: .18em; text-transform: uppercase;
+  color: #fff8ec; background: linear-gradient(180deg, #8b1d2f, var(--kumkum));
+  border: 1px solid var(--gold-lite); border-radius: 2px; padding: .95rem 1.4rem; cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(201, 155, 74, .25), 0 12px 28px rgba(60, 20, 8, .35);
+  animation: breathe 2.6s ease-in-out infinite;
+}
+@keyframes breathe { 50% { box-shadow: 0 0 0 9px rgba(201, 155, 74, .12), 0 12px 28px rgba(60, 20, 8, .35); } }
+@media (prefers-reduced-motion: reduce) { .gate-btn { animation: none; } }
+.hint { font-size: .9rem; font-style: italic; color: var(--gold); }
+#gate .bg.open { opacity: 0; transition: opacity 1.6s ease, transform 2.4s ease; transform: scale(1.02); }
+#gate .bloom { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse 40% 30% at 50% 42%, rgba(255, 238, 205, .95), rgba(255, 214, 150, .4) 45%, transparent 75%); }
+#gate.opening .bg.closed { transform: scale(1.12); transition: transform 2.4s ease; }
+#gate.opening .bg.open { opacity: 1; transform: scale(1.0); }
+#gate.opening .bloom { animation: bloom 2.2s ease forwards; }
+@keyframes bloom { 30% { opacity: 1; } 100% { opacity: 0; } }
+
+/* countdown */
+.count { display: flex; gap: .9rem; justify-content: center; font-variant-numeric: tabular-nums; }
+.count div { display: grid; min-width: 3.2rem; }
+.count b { font-family: var(--display); font-weight: 400; font-size: 1.7rem; color: var(--kumkum); line-height: 1.1; }
+.count span { font-family: var(--display); font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+
+.sound {
+  position: fixed; right: max(14px, calc(50% - min(50%, calc(100dvh * 9 / 32)) + 14px));
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 10;
+  width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--gold-lite);
+  background: rgba(107, 20, 36, .85); color: #fff1d8; cursor: pointer; display: grid; place-items: center;
+}
+.sound svg { width: 20px; height: 20px; }
+
+.closing .zone { gap: .35rem; }
+.onpaper .hash, .onpaper .fine, .onpaper .rsvp, .onpaper .eyebrow {
+  text-shadow: 0 0 6px var(--paper), 0 0 14px var(--paper), 0 0 22px rgba(251, 243, 227, .9);
+}
+.closing .rsvp { padding: .35rem 1rem; gap: .05rem; margin-top: 0; }
+.closing .rsvp-row { font-size: .98rem; }
+.closing .zone { gap: .25rem; }
+.closing .btn.ghost { background: rgba(251, 243, 227, .75); }
+.closing .hash { font-family: var(--body); font-weight: 700; font-size: clamp(2.2rem, 10vw, 3rem); color: var(--kumkum); }
+</style>
+</head>
+<body>
+
+
+<div class="backdrop" id="backdrop" aria-hidden="true" style="background-image:url('gate-closed.jpg')"></div>
+<div class="veil" id="veil" aria-hidden="true"></div>
+<main class="reel" id="reel">
+
+  <!-- 1. The closed gate: call to action -->
+  <section class="screen" id="gate" aria-label="The gate">
+    <div class="bg closed" style="background-image:url('gate-closed.jpg')"></div>
+    <div class="bg open" style="background-image:url('gate-open.jpg')"></div>
+    <div class="bloom"></div>
+    <div class="seal" aria-hidden="true"></div>
+    <button class="shankh-lock" id="openGate" type="button" aria-label="Sound the shankh to open the gates">
+      <svg viewBox="0 0 100 130" aria-hidden="true">
+        <defs>
+          <radialGradient id="shBody" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#fffdf6"/><stop offset=".65" stop-color="#f1e3c8"/><stop offset="1" stop-color="#cdb48c"/></radialGradient>
+          <linearGradient id="shLip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd3da"/><stop offset="1" stop-color="#d9637d"/></linearGradient>
+        </defs>
+        <path d="M50 5 C60 13 66 25 68 39 C81 51 87 70 85 89 C83 109 69 123 50 125 C33 123 21 111 19 93 C17 76 23 60 32 48 C34 30 40 16 50 5 Z" fill="url(#shBody)" stroke="#8a5a17" stroke-width="1.6"/>
+        <path d="M58 57 C73 65 78 86 72 104 C68 115 59 119 52 117 C61 101 63 79 58 57 Z" fill="url(#shLip)"/>
+        <path d="M50 5 C46 17 44 28 46 40" fill="none" stroke="#b07d2a" stroke-width="2.2"/>
+        <path d="M37 33 C45 29 56 29 64 33 M32 45 C43 40 59 40 69 46 M27 60 C39 55 51 55 57 58" fill="none" stroke="#b07d2a" stroke-width="2"/>
+        <ellipse cx="50" cy="8" rx="5.5" ry="4" fill="#d4a64e" stroke="#8a5a17"/>
+        <path d="M27 110 C40 121 60 121 73 110" fill="none" stroke="#d4a64e" stroke-width="4"/>
+        <circle cx="50" cy="118" r="3" fill="#6b1424"/>
+      </svg>
+    </button>
+    <span class="lock-label" aria-hidden="true">Sound the shankh</span>
+    <div class="zone bottom">
+      <div class="scroll" data-unroll>
+        <div class="rod top" aria-hidden="true"></div>
+        <div class="paper zone">
+        <span class="eyebrow">The ShivGauri Saga</span>
+        <p class="lede" style="margin:0">High in the Himalaya, Gauri waited<br>an age for her Shiva.<br>Now two hearts, two families, one saga,<br>and a place kept just for you.</p>
+        <div class="rule" aria-hidden="true"></div>
+        <span class="hint">Sound the shankh on the gate to enter</span>
+        </div>
+        <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Lord Ganesha's blessing -->
+  <section class="screen" id="ganesh" aria-label="Lord Ganesha's blessing">
+    <div class="bg kenburns" style="background-image:url('gate-open.jpg')"><canvas class="ganesha-fx" id="ganeshaFx" aria-hidden="true"></canvas></div>
+    <div class="zone bottom">
+      <div class="scroll" data-unroll>
+        <div class="rod top" aria-hidden="true"></div>
+        <div class="paper zone">
+        <p class="mantra" lang="sa" style="margin:0">॥ श्री गणेशाय नमः ॥</p>
+        <p class="mantra small" lang="sa" style="margin:0">वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।<br>निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥</p>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="lede" style="margin:0">Every sacred story begins at Ganesha’s feet.<br>With his blessing clearing every path,<br>ours begins here, and leads to you.</p>
+        </div>
+        <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+      </div>
+    </div>
+      <a class="next" href="#blessings" data-next="blessings">Continue to the blessings<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+  </section>
+
+  <!-- 3. Shree Chakra: Mata Tripura Sundari's blessings and the families -->
+  <section class="screen" id="blessings" aria-label="Blessings">
+    <div class="bg kenburns" style="background-image:url('shree-chakra.jpg')"></div>
+    <div class="zone bottom">
+      <div class="scroll" data-unroll>
+        <div class="rod top" aria-hidden="true"></div>
+        <div class="paper zone">
+        <p class="mantra" lang="sa" style="margin:0">॥ ॐ श्री ललितात्रिपुरसुन्दर्यै नमः ॥</p>
+        <p class="lede" style="margin:0;font-size:1.05rem">Bathed in the radiance of<br>Mata Tripura Sundari</p>
+        <p class="fine" style="margin:.2rem 0 0">and held in the heavenly blessings of</p>
+        <div class="blessing-list">
+          <span>Lt. Smt. Jayakishori &amp;<br>Lt. Sh. Soom Nath Dhar</span>
+          <span style="margin-top:.3rem">Lt. Smt. Mahalakshmi Bhat &amp;<br>Lt. Sh. Radhakrishan Bhat</span>
+        </div>
+        </div>
+        <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+      </div>
+    </div>
+      <a class="next" href="#sangam" data-next="sangam">Meet the couple<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+  </section>
+
+  <!-- 4. Shiv–Parvati Sangam -->
+  <section class="screen" id="sangam" aria-label="The invitation">
+    <div class="bg kenburns" style="background-image:url('shiv-parvati.jpg')"></div>
+    <div class="zone bottom">
+      <div class="scroll" data-unroll>
+        <div class="rod top" aria-hidden="true"></div>
+        <div class="paper zone">
+        <p class="lede" style="margin:0;font-size:1.02rem">As Gauri found her Shiva,<br>our Shivani has found her Gaurav.</p>
+        <p class="fine" style="margin:.15rem 0 0"><span style="color:var(--kumkum)">Smt. Sweety &amp; Sh. Suresh Kumar Dhar</span><br>request the honour of your presence<br>at the wedding of their daughter</p>
+        <p class="names divine" style="margin:1.25rem 0 0;font-size:2.3rem" aria-label="Shivani"><span class="hl">Shiva<svg class="sym" viewBox="0 0 40 56" aria-hidden="true"><g fill="#b8862e" stroke="#7a5214" stroke-width=".8"><path d="M20 1 L23.2 13 L21.4 21 L18.6 21 L16.8 13 Z"/><path d="M19 24 C11 24 6.5 17.5 7 6 C9.5 13 13 16.5 19 17.5 Z"/><path d="M21 24 C29 24 33.5 17.5 33 6 C30.5 13 27 16.5 21 17.5 Z"/><rect x="12.5" y="22.5" width="15" height="3.2" rx="1.4"/><rect x="18.9" y="25" width="2.2" height="30" rx="1"/></g><circle cx="20" cy="31" r="2.2" fill="#6b1424"/></svg></span><span class="rest">ni</span></p>
+        <span class="amp" style="font-size:1.15rem">with</span>
+        <p class="names divine" style="margin:1rem 0 0;font-size:2.3rem" aria-label="Gaurav"><span class="hl">Gaura<svg class="sym lotus" viewBox="0 0 56 34" aria-hidden="true"><g fill="#d9a647" stroke="#7a5214" stroke-width=".8"><path d="M28 31 C16 31 5 27 1.5 19.5 C12 19.5 22 24.5 28 31 Z"/><path d="M28 31 C40 31 51 27 54.5 19.5 C44 19.5 34 24.5 28 31 Z"/><path d="M28 30 C18 28 10.5 20 8.5 9.5 C16.5 12 24 19.5 28 30 Z"/><path d="M28 30 C38 28 45.5 20 47.5 9.5 C39.5 12 32 19.5 28 30 Z"/></g><path d="M28 1.5 C34.5 9.5 34.5 22 28 30 C21.5 22 21.5 9.5 28 1.5 Z" fill="#e7799a" stroke="#7a5214" stroke-width=".8"/><circle cx="28" cy="31.5" r="2" fill="#6b1424"/></svg></span><span class="rest">v</span></p>
+        <p class="fine" style="margin:0">son of Smt. Ranjana &amp; Sh. Karan Singh</p>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="hint" style="margin:0"><span id="cd-d">—</span> sunrises until the Lagan · 25 January 2027</p>
+        </div>
+        <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+      </div>
+    </div>
+      <a class="next" href="#maenziraat" data-next="maenziraat">See the ceremonies<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+  </section>
+
+  <!-- 5–7. Ceremonies (filled from EVENTS below) -->
+  <section class="screen event" id="maenziraat" aria-label="Maenziraat">
+    <div class="bg kenburns" style="background-image:url('maenziraat.jpg')"></div>
+    <div class="zone bottom" data-event="maenziraat"></div>
+      <a class="next" href="#devgon" data-next="devgon">Next: Devgon<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+  </section>
+
+  <section class="screen event" id="devgon" aria-label="Devgon">
+    <div class="bg kenburns" style="background-image:url('devgon.jpg')"></div>
+    <div class="zone top" data-event="devgon"></div>
+      <a class="next" href="#lagan" data-next="lagan">Next: Lagan<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+  </section>
+
+  <section class="screen event" id="lagan" aria-label="Lagan">
+    <div class="bg kenburns" style="background-image:url('lagan.jpg')"></div>
+    <div class="zone bottom" data-event="lagan"></div>
+      <a class="next" href="#remember" data-next="remember">Next: Things to remember<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+  </section>
+
+  <!-- Things to remember -->
+  <section class="screen" id="remember" aria-label="Things to remember">
+    <div class="bg kenburns" style="background-image:url('shree-chakra.jpg')"></div>
+    <div class="zone bottom">
+      <div class="scroll" data-unroll>
+        <div class="rod top" aria-hidden="true"></div>
+        <div class="paper zone">
+        <span class="eyebrow">Things to remember</span>
+        <p class="lede" style="margin:0;font-size:1.05rem">Little notes for your place in the saga</p>
+        <ul class="notes">
+          <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.9 1.4-1.9-.5-1.2.3-2.4 1.6-2.4H17a4 4 0 0 0 4-4C21 7 17 3 12 3Z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10" cy="7" r="1.2"/><circle cx="14.5" cy="7" r="1.2"/></svg></span><span><b class="t">Wear the colours</b><span class="d">Maenziraat in <b>pink &amp; blue</b>, Devgon in <b>yellow &amp; green</b>, and the Lagan in your festive finest.</span></span></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span><span><b class="t">Mind the hours</b><span class="d">Devgon begins at <b>8 AM</b>. Maenziraat and the Lagan glow from <b>7 PM</b>.</span></span></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.8-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg></span><span><b class="t">Two venues, one saga</b><span class="d"><b>Kashmiri Bhawan</b>, Sector 37 for Maenziraat and Devgon. <b>Rajhans</b>, Surajkund for the Lagan.</span></span></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4c2 2.4 2.6 6 0 10-2.6-4-2-7.6 0-10Z"/><path d="M12 14c-3.6.2-6.6-1.8-8-5.5 3.4.2 6.4 2 8 5.5Zm0 0c3.6.2 6.6-1.8 8-5.5-3.4.2-6.4 2-8 5.5Z"/><path d="M4 17.5c4.6 1.6 11.4 1.6 16 0"/></svg></span><span><b class="t">Stay for the petals</b><span class="d">Posh Puja closes the Lagan. Every guest showers the couple with flowers, as if upon Shiva and Parvati.</span></span></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></span><span><b class="t">Sing along</b><span class="d">At Maenziraat the <b>wanvun</b> flows late into the night. No lyrics needed, only joy.</span></span></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8.5 7l1.5-2.5h4L15.5 7"/><circle cx="12" cy="13.5" r="3.5"/></svg></span><span><b class="t">Tell the story</b><span class="d">Every moment you capture becomes a page of ours. Share it with <b>#ShivGauriSaga</b>.</span></span></li>
+        </ul>
+        </div>
+        <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+      </div>
+    </div>
+      <a class="next" href="#closing" data-next="closing">Next: RSVP<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+  </section>
+
+  <!-- 8. Closing -->
+  <section class="screen closing" id="closing" aria-label="RSVP">
+    <div class="bg kenburns" style="background-image:url('ganesh.jpg')"></div>
+    <div class="zone bottom" style="padding-bottom:max(2dvh,12px)">
+      <div class="scroll" data-unroll>
+        <div class="rod top" aria-hidden="true"></div>
+        <div class="paper zone">
+        <p class="mantra small" lang="sa" style="margin:0">॥ शुभ विवाह ॥</p>
+        <p class="hash" style="margin:0;font-size:clamp(1.8rem,8vw,2.2rem)">#ShivGauriSaga</p>
+        <p class="lede" style="margin:0;font-size:1rem">Every saga needs its witnesses.<br>Will you be ours?</p>
+        <p class="fine" style="margin:0;font-size:.95rem">With love,<br><span style="color:var(--kumkum)">Smt. Sweety &amp; Sh. Suresh Kumar Dhar</span><br>and the Dhar family</p>
+        <div class="rsvp" aria-label="RSVP">
+          <span class="eyebrow">RSVP</span>
+          <div class="rsvp-row"><span class="who">Sh. Suresh Kumar Dhar</span></div>
+          <div class="rsvp-row"><span class="who">Smt. Sweety Dhar</span></div>
+          <div class="rsvp-row"><span class="who">Himani Dhar</span></div>
+        </div>
+        </div>
+        <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+      </div>
+      <div class="actions"><a class="btn ghost" href="#gate">Back to the gates</a></div>
+    </div>
+  </section>
+</main>
+
+<dialog class="trad" id="trad" aria-label="About this ceremony">
+  <div class="scroll">
+    <div class="rod top" aria-hidden="true"></div>
+    <div class="paper zone" id="tradBody"></div>
+    <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+  </div>
+</dialog>
+
+<button class="sound" id="sound" type="button" aria-label="Play music" aria-pressed="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path id="snd-icon" d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm10-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+</button>
+<audio id="music" src="music.mp3" loop preload="auto"></audio>
+<audio id="shankh" src="shankh.mp3" preload="auto"></audio>
+
+<script>
+/* ---- Edit ceremony details here. Leave time empty ("") until it is confirmed: the page then says
+   "Timing to follow" and the calendar entry is saved as an all-day event. ---- */
+const EVENTS = {
+  maenziraat: {
+    title: 'Maenziraat', sub: 'The night of henna',
+    line: 'Hands bloom with maenz, hearts with song.',
+    date: '2027-01-24', day: 'Sunday, 24 January 2027',
+    start: '19:00', end: '23:30', timeText: '7 PM onwards',
+    venue: 'Kashmiri Bhawan', address: 'Sector 37, Faridabad',
+    dress: { text: 'Shades of pink & blue', colors: [{ name: 'Pink', c: '#F0197D', ink: '#ffffff' }, { name: 'Blue', c: '#1D4ED8', ink: '#ffffff' }] },
+  },
+  devgon: {
+    title: 'Devgon', sub: 'The day the gods are welcomed home',
+    line: 'Prayers to Shiva and Parvati, and the dejhoor that crowns a Kashmiri bride.',
+    date: '2027-01-25', day: 'Monday, 25 January 2027',
+    start: '08:00', end: '13:00', timeText: '8 AM onwards',
+    venue: 'Kashmiri Bhawan', address: 'Sector 37, Faridabad',
+    dress: { text: 'Shades of yellow & green', colors: [{ name: 'Yellow', c: '#FFC400', ink: '#4a2c00' }, { name: 'Green', c: '#0F9D58', ink: '#ffffff' }] },
+  },
+  lagan: {
+    title: 'Lagan', sub: 'Seven circles around the sacred fire',
+    line: 'Witness our seven steps, then shower us with flowers at Posh Puja.',
+    date: '2027-01-25', day: 'Monday, 25 January 2027',
+    start: '19:00', end: '23:30', timeText: '7 PM onwards',
+    venue: 'Rajhans', address: 'Surajkund, Faridabad',
+    dress: null,
+  },
+};
+const LAGAN_AT = new Date('2027-01-25T19:00:00+05:30');
+
+const ICON_CAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="1.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4M12 12.5v5M9.5 15h5"/></svg>';
+const ICON_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11A6.5 6.5 0 0 1 18.5 10c0 4.8-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>';
+
+function ymd(d) { return d.replaceAll('-', ''); }
+function nextDay(d) { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + 1); return t.toISOString().slice(0, 10); }
+function utcStamp(date, hm) { // IST -> UTC compact stamp
+  const t = new Date(`${date}T${hm}:00+05:30`);
+  return t.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+}
+function details(e) {
+  return `${e.title} — #ShivGauriSaga\nShivani & Gaurav\n${e.venue}, ${e.address}` + (e.dress ? `\nDress: ${e.dress.text}` : '');
+}
+function googleLink(e) {
+  const dates = e.start ? `${utcStamp(e.date, e.start)}/${utcStamp(e.date, e.end)}` : `${ymd(e.date)}/${ymd(nextDay(e.date))}`;
+  const p = new URLSearchParams({ action: 'TEMPLATE', text: `${e.title} · Shivani & Gaurav`, dates,
+    details: details(e), location: `${e.venue}, ${e.address}`, ctz: 'Asia/Kolkata' });
+  return 'https://calendar.google.com/calendar/render?' + p.toString();
+}
+function outlookLink(e) {
+  const p = new URLSearchParams({ path: '/calendar/action/compose', rru: 'addevent',
+    subject: `${e.title} · Shivani & Gaurav`, body: details(e), location: `${e.venue}, ${e.address}` });
+  if (e.start) { p.set('startdt', `${e.date}T${e.start}:00+05:30`); p.set('enddt', `${e.date}T${e.end}:00+05:30`); }
+  else { p.set('startdt', e.date); p.set('enddt', nextDay(e.date)); p.set('allday', 'true'); }
+  return 'https://outlook.live.com/calendar/0/deeplink/compose?' + p.toString();
+}
+function mapLink(e) {
+  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(`${e.venue}, ${e.address}`);
+}
+function esc(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+/* the calendar that suits the guest's device */
+const UA = navigator.userAgent || '';
+const IS_APPLE = /iPhone|iPad|iPod|Macintosh/.test(UA);
+const IS_ANDROID = /Android/.test(UA);
+const CAL_LABEL = 'Add to calendar';
+
+const ICON_BOOK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5.5C6.5 4.5 9.5 4.5 12 6c2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5Z"/><path d="M12 6v13.5"/></svg>';
+
+for (const [key, e] of Object.entries(EVENTS)) {
+  const el = document.querySelector(`[data-event="${key}"]`);
+  if (!el) continue;
+  const dress = e.dress ? `<div class="dress-row"><span class="lbl">Dress in</span><div class="chips">${e.dress.colors.map(x => `<span class="chip" style="background:${x.c};color:${x.ink}">${esc(x.name)}</span>`).join('')}</div></div>` : '';
+  el.innerHTML = `
+    <div class="scroll" data-unroll>
+     <div class="rod top" aria-hidden="true"></div>
+     <div class="paper zone">
+      <h2>${esc(e.title)}</h2>
+      <span class="sub">${esc(e.sub)}</span>
+      <p class="line">${esc(e.line)}</p>
+      <div class="rule" aria-hidden="true"></div>
+      <div class="facts">
+        <span class="when">${esc(e.day)}</span>
+        <span>${e.timeText ? esc(e.timeText) : '<span class="where">Timing to follow</span>'}</span>
+        <span>${esc(e.venue)}, <span class="where">${esc(e.address)}</span></span>
+      </div>
+      ${dress}
+      <div class="actions">
+        <a class="btn" href="${IS_APPLE ? key + '.ics' : googleLink(e)}" ${IS_APPLE ? '' : 'target="_blank" rel="noopener"'}>${ICON_CAL}${CAL_LABEL}</a>
+        <a class="btn ghost" href="${mapLink(e)}" target="_blank" rel="noopener">${ICON_PIN}Map</a>
+      </div>
+      <button class="btn tradition" type="button" data-trad="${key}">${ICON_BOOK}Know the tradition</button>
+     </div>
+     <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+    </div>`;
+}
+
+/* the story behind each ceremony */
+const TRADITION = {
+  maenziraat: {
+    title: 'Maenziraat', sub: 'The night of henna',
+    body: [
+      'Maenziraat, the night of <b>maenz</b> (henna), opens the wedding celebrations. The aunts decorate the doorway of the home, a ritual called <b>krool khaarun</b>.',
+      'The bride is bathed, her maternal aunt washes her feet, and her eldest aunt adorns her hands and feet with henna. The henna is then shared with family and neighbours, and the groom receives a touch of it too, for good fortune.',
+      'The night belongs to <b>wanvun</b>: Kashmiri wedding songs sung by the women of the family, often late into the night.'
+    ],
+    src: [['ikashmir.net · Kashmiri Pandit marriage', 'https://ikashmir.net/marriage/index.html']]
+  },
+  devgon: {
+    title: 'Devgon', sub: 'The day the gods are welcomed home',
+    body: [
+      'Devgon marks the step from <b>brahmacharya</b>, the life of a student, into <b>grihastha</b>, married life. The bride and groom observe it separately at their own homes.',
+      'Before a sacred fire, the family priest leads prayers to <b>Shiva and Parvati</b>. Then comes <b>kanishran</b>, a ceremonial bath of water, rice, milk and curd, after which the bride is dressed in new clothes.',
+      'Her mother gives her the <b>dejhoor</b>, the gold ear ornament of a Kashmiri Pandit bride, hung on a red thread. Its hexagram shape is said to represent the union of Shiva and Shakti.'
+    ],
+    src: [['ikashmir.net · Kashmiri Pandit marriage', 'https://ikashmir.net/marriage/index.html'], ['searchkashmir.org · Dejhoor, Athoor and Atah', 'https://searchkashmir.org/dejhoor-athoor-and-atah/']]
+  },
+  lagan: {
+    title: 'Lagan', sub: 'Seven circles around the sacred fire',
+    body: [
+      'The Lagan is the wedding itself, performed before a sacred fire. The bride and groom first see each other in the reflection of a mirror.',
+      'Their hands are joined beneath a cloth called <b>athwas</b>, a golden thread, the <b>mananmal</b>, is tied across their foreheads, and they walk seven times around the fire.',
+      'It ends with <b>Posh Puja</b>, the worship with flowers. A red cloth is held over the couple and every guest showers them with petals, for in that moment the bride and groom are honoured as <b>Shiva and Parvati</b>.'
+    ],
+    src: [['ikashmir.net · Kashmiri Pandit marriage', 'https://ikashmir.net/marriage/index.html'], ['koshur.org · Posh Pooza', 'https://www.koshur.org/music/poshpooza/index.html']]
+  },
+};
+const trad = document.getElementById('trad');
+const tradBody = document.getElementById('tradBody');
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('[data-trad]');
+  if (!b) return;
+  const t = TRADITION[b.dataset.trad];
+  tradBody.innerHTML = `<h3>${t.title}</h3><span class="sub">${t.sub}</span><div class="rule" aria-hidden="true" style="align-self:center"></div>` +
+    t.body.map(p => `<p>${p}</p>`).join('') +
+    `<p class="src">Read more: ${t.src.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(' · ')}</p>` +
+    `<button class="btn close" type="button" data-close>Close</button>`;
+  const sc = trad.querySelector('.scroll');
+  sc.classList.add('rolled');
+  if (typeof trad.showModal === 'function') trad.showModal(); else trad.setAttribute('open', '');
+  requestAnimationFrame(() => requestAnimationFrame(() => sc.classList.remove('rolled')));
+});
+trad.addEventListener('click', ev => {
+  if (ev.target.closest('[data-close]') || ev.target === trad) trad.close ? trad.close() : trad.removeAttribute('open');
+});
+
+/* countdown */
+function tick() {
+  let ms = Math.max(0, LAGAN_AT - new Date());
+  const d = Math.floor(ms / 864e5); ms -= d * 864e5;
+  const h = Math.floor(ms / 36e5); ms -= h * 36e5;
+  const m = Math.floor(ms / 6e4);
+  document.getElementById('cd-d').textContent = d;
+
+}
+tick(); setInterval(tick, 30000);
+
+/* music */
+const music = document.getElementById('music');
+const soundBtn = document.getElementById('sound');
+const ICON_ON = 'M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm10-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z';
+const ICON_OFF = 'M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm10-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM3 3l18 18';
+function setSound(on) {
+  soundBtn.setAttribute('aria-pressed', String(on));
+  soundBtn.setAttribute('aria-label', on ? 'Pause music' : 'Play music');
+  document.getElementById('snd-icon').setAttribute('d', on ? ICON_ON : ICON_OFF);
+}
+setSound(false);
+async function play() {
+  try { await music.play(); setSound(true); } catch (_) { setSound(false); }
+}
+soundBtn.addEventListener('click', () => {
+  if (music.paused) { if (mix && mix.ctx) { mix.ctx.resume(); mix.gm.gain.value = 0.9; } play(); }
+  else { music.pause(); setSound(false); }
+});
+
+/* page navigation: only by tapping */
+const reelEl = document.getElementById('reel');
+const veil = document.getElementById('veil');
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let navBusy = false;
+function go(id) {
+  const target = document.getElementById(id);
+  if (!target || navBusy) return;
+  navBusy = true;
+  const jump = () => { reelEl.style.scrollBehavior = 'auto'; reelEl.scrollTop = target.offsetTop; target.scrollTop = 0; };
+  if (REDUCED) { jump(); navBusy = false; return; }
+  veil.classList.add('on');
+  setTimeout(() => { jump(); requestAnimationFrame(() => { veil.classList.remove('on'); setTimeout(() => navBusy = false, 600); }); }, 620);
+}
+// keep the right page in place if the window is resized or the phone rotates
+let currentId = 'gate';
+const pageIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.6) currentId = e.target.id; }),
+  { root: reelEl, threshold: [0.6] });
+document.querySelectorAll('.screen').forEach(sc => pageIO.observe(sc));
+addEventListener('resize', () => { const t = document.getElementById(currentId); if (t) reelEl.scrollTop = t.offsetTop; });
+// block keyboard paging between screens
+reelEl.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', ' ', 'End', 'Home'].includes(e.key) && e.target === reelEl) e.preventDefault(); });
+
+/* next buttons */
+document.querySelectorAll('[data-next]').forEach(a => a.addEventListener('click', ev => {
+  ev.preventDefault();
+  go(a.dataset.next);
+}));
+document.querySelectorAll('#closing .actions a[href^="#"]').forEach(a => a.addEventListener('click', ev => {
+  ev.preventDefault();
+  go(a.getAttribute('href').slice(1));
+}));
+
+/* keep the backdrop in step with the screen in view */
+(() => {
+  const bd = document.getElementById('backdrop');
+  if (!bd || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting && e.intersectionRatio > 0.55) {
+      const b = e.target.querySelector('.bg.open') && e.target.id === 'gate' && e.target.classList.contains('opening')
+        ? e.target.querySelector('.bg.open') : e.target.querySelector('.bg');
+      if (b) bd.style.backgroundImage = b.style.backgroundImage;
+    }
+  }), { root: document.getElementById('reel'), threshold: [0.55] });
+  document.querySelectorAll('.screen').forEach(sc => io.observe(sc));
+})();
+
+/* each scroll drops slowly from above, settles, then unrolls from the top with a sweep of light */
+(() => {
+  if (!('IntersectionObserver' in window) || !(window.CSS && CSS.registerProperty)) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const reel = document.getElementById('reel');
+  document.querySelectorAll('.scroll[data-unroll]').forEach(sc => {
+    let timers = [];
+    const clear = () => { timers.forEach(clearTimeout); timers = []; };
+    const hide = () => { clear(); sc.classList.remove('sheen', 'landing'); sc.classList.add('rolled', 'aloft'); };
+    hide();
+    new IntersectionObserver(entries => {
+      for (const en of entries) {
+        if (en.isIntersecting && en.intersectionRatio > 0.35) {
+          clear();
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            sc.classList.remove('aloft'); sc.classList.add('landing');          // the fall
+            timers.push(setTimeout(() => sc.classList.remove('rolled'), 1450));  // the unroll
+            timers.push(setTimeout(() => sc.classList.add('sheen'), 3300));      // the gleam
+            timers.push(setTimeout(() => sc.classList.remove('landing'), 3200));
+          }));
+        } else if (!en.isIntersecting) {
+          hide();
+        }
+      }
+    }, { root: reel, threshold: [0, 0.35] }).observe(sc.closest('section'));
+  });
+})();
+
+
+/* Ganesha takes form in the open doorway, bit by bit, then showers blessings */
+(() => {
+  const cv = document.getElementById('ganeshaFx');
+  const sec = document.getElementById('ganesh');
+  if (!cv || !cv.getContext) return;
+  const ctx = cv.getContext('2d');
+  const img = new Image(); img.src = 'ganesha-cut.png';
+  const DW = 1080, DH = 1920;                 // the panel's own coordinates
+  const GW = 440, GH = 440 * 902 / 672, GX = 540 - GW / 2, GY = 300;
+  const K = 1.6;                              // mask resolution
+  const mask = document.createElement('canvas'); mask.width = GW * K; mask.height = GH * K;
+  const mctx = mask.getContext('2d');
+  const comp = document.createElement('canvas'); comp.width = mask.width; comp.height = mask.height;
+  const cctx = comp.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const REVEAL = 3.8;
+  let t0 = 0, last = 0, running = false, revealed = false, sparks = [], parts = [], emitAcc = 0, burst = false;
+  let s = 1, ox = 0, oy = 0, dpr = 1;
+
+  function size() {
+    const r = cv.getBoundingClientRect();
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+    s = Math.max(r.width / DW, r.height / DH);
+    ox = (r.width - DW * s) / 2; oy = (r.height - DH * s) / 2;
+  }
+  function reset() {
+    mctx.clearRect(0, 0, mask.width, mask.height);
+    sparks = []; parts = []; revealed = false; burst = false; emitAcc = 0;
+  }
+  function blob(x, y, r, a) {
+    const g = mctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgba(0,0,0,${a})`); g.addColorStop(1, 'rgba(0,0,0,0)');
+    mctx.fillStyle = g; mctx.beginPath(); mctx.arc(x, y, r, 0, Math.PI * 2); mctx.fill();
+  }
+  function petal(x, y, rot, sc, col, a) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(sc, sc); ctx.globalAlpha = a;
+    ctx.fillStyle = col; ctx.beginPath();
+    ctx.moveTo(0, -9); ctx.bezierCurveTo(7, -6, 7, 6, 0, 10); ctx.bezierCurveTo(-7, 6, -7, -6, 0, -9); ctx.fill();
+    ctx.restore();
+  }
+  const PETALS = ['#e9557a', '#f28aa5', '#f7b9c8', '#ff9f43', '#ffd27a', '#fff1d6'];
+  function emit(n, spread) {
+    for (let i = 0; i < n; i++) {
+      const dust = Math.random() < 0.55;
+      parts.push({
+        x: 540 + (Math.random() - 0.5) * spread, y: GY - 30 + Math.random() * 60,
+        vx: (Math.random() - 0.5) * 90, vy: 70 + Math.random() * 80,
+        rot: Math.random() * 6.28, vr: (Math.random() - 0.5) * 2.4, sw: Math.random() * 6.28,
+        sc: 0.9 + Math.random() * 1.1, col: PETALS[(Math.random() * PETALS.length) | 0], dust, life: 0,
+      });
+    }
+  }
+  function frame(now) {
+    if (!running) return;
+    const t = (now - t0) / 1000, dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now;
+    // grow the mask: centre first, then outward, in soft "bits"
+    if (!revealed) {
+      const q = Math.min(1, t / REVEAL);
+      const n = Math.round(260 * dt * (0.6 + q));
+      for (let i = 0; i < n; i++) {
+        const ang = Math.random() * 6.283, rr = Math.sqrt(Math.random()) * (0.35 + 0.75 * q);
+        const x = mask.width / 2 + Math.cos(ang) * rr * mask.width * 0.5;
+        const y = mask.height * 0.52 + Math.sin(ang) * rr * mask.height * 0.53;
+        const r = (10 + Math.random() * 26) * K;
+        blob(x, y, r, 0.5 + Math.random() * 0.4);
+        if (Math.random() < 0.5) sparks.push({ x: GX + x / K, y: GY + y / K, life: 0 });
+      }
+      if (t >= REVEAL) { mctx.fillStyle = '#000'; mctx.fillRect(0, 0, mask.width, mask.height); revealed = true; }
+    }
+    if (revealed && !burst) { burst = true; emit(40, 520); }
+    if (revealed) { emitAcc += dt * 12; const k = emitAcc | 0; if (k) { emit(k, 560); emitAcc -= k; } }
+
+    ctx.setTransform(dpr * s, 0, 0, dpr * s, dpr * ox, dpr * oy);
+    ctx.clearRect(-ox / s, -oy / s, cv.width / (dpr * s), cv.height / (dpr * s));
+    // aura
+    const aura = Math.min(1, t / 1.2) * (0.42 + 0.1 * Math.sin(t * 2));
+    const ag = ctx.createRadialGradient(540, GY + GH * 0.48, 10, 540, GY + GH * 0.48, 380);
+    ag.addColorStop(0, `rgba(255,236,190,${aura})`); ag.addColorStop(0.5, `rgba(255,205,130,${aura * 0.45})`); ag.addColorStop(1, 'rgba(255,200,120,0)');
+    ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = ag; ctx.fillRect(140, GY - 120, 800, GH + 240);
+    ctx.globalCompositeOperation = 'source-over';
+    // Ganesha through the growing mask
+    if (img.complete && img.naturalWidth) {
+      cctx.globalCompositeOperation = 'source-over'; cctx.clearRect(0, 0, comp.width, comp.height);
+      cctx.drawImage(img, 0, 0, comp.width, comp.height);
+      cctx.globalCompositeOperation = 'destination-in'; cctx.drawImage(mask, 0, 0);
+      ctx.drawImage(comp, GX, GY, GW, GH);
+    }
+    // sparks where his form gathers
+    ctx.globalCompositeOperation = 'lighter';
+    sparks = sparks.filter(p => (p.life += dt) < 0.7);
+    for (const p of sparks) {
+      const a = 1 - p.life / 0.7, r = 5 + 9 * a;
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
+      g.addColorStop(0, `rgba(255,245,210,${a})`); g.addColorStop(1, 'rgba(255,200,110,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 6.283); ctx.fill();
+    }
+    // the shower of blessings
+    parts = parts.filter(p => (p.life += dt) < 9 && p.y < DH + 20);
+    for (const p of parts) {
+      p.sw += dt * 1.6; p.x += (p.vx + Math.sin(p.sw) * 18) * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+      const a = Math.min(1, p.life / 0.4) * Math.min(1, (9 - p.life) / 1.5);
+      if (p.dust) {
+        ctx.globalCompositeOperation = 'lighter';
+        const r = 3 + 2.5 * p.sc;
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 2.2);
+        g.addColorStop(0, `rgba(255,236,170,${0.9 * a})`); g.addColorStop(1, 'rgba(255,190,90,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, r * 2.2, 0, 6.283); ctx.fill();
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        petal(p.x, p.y, p.rot, p.sc * 1.1, p.col, a * 0.9);
+      }
+    }
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    requestAnimationFrame(frame);
+  }
+  function start() {
+    if (running) return;
+    size(); reset(); running = true; t0 = last = performance.now();
+    if (reduce) { mctx.fillStyle = '#000'; mctx.fillRect(0, 0, mask.width, mask.height); revealed = true; burst = true; }
+    requestAnimationFrame(frame);
+  }
+  function stop() { running = false; }
+  addEventListener('resize', () => { if (running) size(); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting && e.intersectionRatio > 0.5) start();
+      else if (!e.isIntersecting) stop();
+    }), { root: document.getElementById('reel'), threshold: [0, 0.5] }).observe(sec);
+  } else start();
+})();
+
+/* open the gates: the shankh sounds, the seal breaks, the doors part, and the music takes over */
+const gate = document.getElementById('gate');
+const shankh = document.getElementById('shankh');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let mix = null;   // Web Audio gains: phones ignore <audio>.volume, gain nodes work everywhere
+function setupMix() {
+  if (mix) return mix;
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AC();
+    const gm = ctx.createGain(), gs = ctx.createGain();
+    ctx.createMediaElementSource(music).connect(gm).connect(ctx.destination);
+    ctx.createMediaElementSource(shankh).connect(gs).connect(ctx.destination);
+    mix = { ctx, gm, gs };
+  } catch (_) { mix = { ctx: null }; }
+  return mix;
+}
+function ramp(g, to, secs) {
+  if (!mix || !mix.ctx) return;
+  const now = mix.ctx.currentTime;
+  g.gain.cancelScheduledValues(now);
+  g.gain.setValueAtTime(g.gain.value, now);
+  g.gain.linearRampToValueAtTime(to, now + secs);
+}
+let opened = false;
+document.getElementById('openGate').addEventListener('click', () => {
+  if (opened) return; opened = true;
+  try { const el = document.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el)?.catch?.(() => {}); } catch (_) {}
+  const m = setupMix();
+  if (m.ctx) { m.ctx.resume(); m.gs.gain.value = 1; m.gm.gain.value = 0; }
+  gate.classList.add('sounding');
+  try { shankh.currentTime = 0; shankh.play().catch(() => {}); } catch (_) {}
+  // the music is started inside the same tap (phones require it) but held silent until the shankh fades
+  try { music.currentTime = 0; music.play().then(() => setSound(true)).catch(() => {}); if (!m.ctx) music.pause(); } catch (_) {}
+  setTimeout(() => gate.classList.add('opening'), reduce ? 200 : 2200);
+  // the shankh sounds alone; the moment it completes, Dheemta Dheemta begins from its first note
+  let handedOver = false;
+  const handOver = () => {
+    if (handedOver) return; handedOver = true;
+    try { music.currentTime = 0; } catch (_) {}
+    if (m.ctx) { m.gs.gain.value = 0; ramp(m.gm, 0.9, 0.5); if (music.paused) play(); }
+    else { play(); }
+  };
+  shankh.addEventListener('ended', handOver, { once: true });
+  setTimeout(handOver, reduce ? 300 : 8200);   // safety net if 'ended' never fires
+  setTimeout(() => go('ganesh'), reduce ? 400 : 4200);
+});
+</script>
+
+</body>
+</html>
