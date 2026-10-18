@@ -172,8 +172,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 /* royal scrolls: parchment mounted in maroon silk and gold, between engraved gold rollers with crimson tassels */
 @property --u { syntax: '<number>'; inherits: true; initial-value: 1; }
 .scroll { --u: 1; position: relative; width: min(calc(100% - 34px), 24.5rem); margin-inline: auto; padding-block: 15px; box-sizing: border-box;
-  transition: --u 2.1s cubic-bezier(.33, .0, .2, 1), transform 1.5s cubic-bezier(.18, 1.12, .32, 1); }
-.scroll.rolled { --u: 0; transition: transform 1.5s cubic-bezier(.18, 1.12, .32, 1); }
+  transition: transform 1.5s cubic-bezier(.18, 1.12, .32, 1); }
 .scroll.aloft { transform: translateY(-120vh) rotate(-4deg); transition: none !important; }
 /* a single sweep of golden light once the card is open */
 .scroll::after { content: ""; position: absolute; inset: 15px 0; z-index: 3; pointer-events: none; opacity: 0;
@@ -785,9 +784,11 @@ document.addEventListener('click', ev => {
     `<p class="src">Read more: ${t.src.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(' · ')}</p>` +
     `<button class="btn close" type="button" data-close>Close</button>`;
   const sc = trad.querySelector('.scroll');
-  sc.classList.add('rolled');
+  sc.style.setProperty('--u', 0);
   if (typeof trad.showModal === 'function') trad.showModal(); else trad.setAttribute('open', '');
-  requestAnimationFrame(() => requestAnimationFrame(() => sc.classList.remove('rolled')));
+  const t0 = performance.now(), ez = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const step = now => { const k = Math.min(1, (now - t0) / 1600); sc.style.setProperty('--u', ez(k).toFixed(4)); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
 });
 trad.addEventListener('click', ev => {
   if (ev.target.closest('[data-close]') || ev.target === trad) trad.close ? trad.close() : trad.removeAttribute('open');
@@ -872,25 +873,34 @@ document.querySelectorAll('#closing .actions a[href^="#"]').forEach(a => a.addEv
   document.querySelectorAll('.screen').forEach(sc => io.observe(sc));
 })();
 
-/* each scroll drops slowly from above, settles, then unrolls from the top with a sweep of light */
+/* each scroll drops slowly from above, settles, then unrolls from the top with a sweep of light.
+   The unroll is driven frame by frame from script so it works on every iPhone/Safari version. */
 (() => {
-  if (!('IntersectionObserver' in window) || !(window.CSS && CSS.registerProperty)) return;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const reel = document.getElementById('reel');
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   document.querySelectorAll('.scroll[data-unroll]').forEach(sc => {
-    let timers = [];
-    const clear = () => { timers.forEach(clearTimeout); timers = []; };
-    const hide = () => { clear(); sc.classList.remove('sheen', 'landing'); sc.classList.add('rolled', 'aloft'); };
+    let timers = [], raf = 0;
+    const setU = v => sc.style.setProperty('--u', v.toFixed(4));
+    const clear = () => { timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(raf); };
+    const unroll = () => {
+      const t0 = performance.now(), dur = 2100;
+      const step = now => { const t = Math.min(1, (now - t0) / dur); setU(ease(t)); if (t < 1) raf = requestAnimationFrame(step); };
+      raf = requestAnimationFrame(step);
+    };
+    const hide = () => { clear(); sc.classList.remove('sheen', 'landing'); setU(0); if (!calm) sc.classList.add('aloft'); };
     hide();
     new IntersectionObserver(entries => {
       for (const en of entries) {
         if (en.isIntersecting && en.intersectionRatio > 0.35) {
           clear();
           requestAnimationFrame(() => requestAnimationFrame(() => {
-            sc.classList.remove('aloft'); sc.classList.add('landing');          // the fall
-            timers.push(setTimeout(() => sc.classList.remove('rolled'), 1450));  // the unroll
-            timers.push(setTimeout(() => sc.classList.add('sheen'), 3300));      // the gleam
-            timers.push(setTimeout(() => sc.classList.remove('landing'), 3200));
+            sc.classList.remove('aloft'); sc.classList.add('landing');      // the fall
+            const d = calm ? 200 : 1450;
+            timers.push(setTimeout(unroll, d));                              // the unroll
+            timers.push(setTimeout(() => sc.classList.add('sheen'), d + 1850)); // the gleam
+            timers.push(setTimeout(() => sc.classList.remove('landing'), d + 1750));
           }));
         } else if (!en.isIntersecting) {
           hide();
