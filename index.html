@@ -640,7 +640,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   </div>
 </dialog>
 
-<button class="sound" id="sound" type="button" aria-label="Play music" aria-pressed="false">
+<button class="sound" id="sound" type="button" hidden aria-label="Play music" aria-pressed="false">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path id="snd-icon" d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm10-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
 </button>
 <audio id="music" src="saga.mp3" preload="auto"></audio>
@@ -815,7 +815,9 @@ function setSound(on) {
   document.getElementById('snd-icon').setAttribute('d', on ? ICON_ON : ICON_OFF);
 }
 setSound(false);
+let gateOpened = false;   // nothing makes a sound until the shankh is tapped
 async function play() {
+  if (!gateOpened) return;
   try { await music.play(); setSound(true); } catch (_) { setSound(false); }
 }
 soundBtn.addEventListener('click', () => {
@@ -1186,7 +1188,8 @@ const MUSIC_AT = 7.72;            // where Dheemta Dheemta begins inside saga.mp
 music.addEventListener('ended', () => { try { music.currentTime = MUSIC_AT; music.play().catch(() => {}); } catch (_) {} });
 let opened = false;
 document.getElementById('openGate').addEventListener('click', () => {
-  if (opened) return; opened = true;
+  if (opened) return; opened = true; gateOpened = true;
+  document.getElementById('sound').hidden = false;
   try { const el = document.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el)?.catch?.(() => {}); } catch (_) {}
   try { music.muted = false; music.currentTime = 0; } catch (_) {}
   play();
