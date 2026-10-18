@@ -236,6 +236,64 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   font-family: var(--display); font-size: .82rem; letter-spacing: .14em; text-transform: uppercase;
   border: 2px solid #d4a64e; box-shadow: 0 3px 8px rgba(40, 15, 5, .3), inset 0 1px 0 rgba(255,255,255,.35); }
 
+/* saga lamps: progress through the invitation */
+.lamps { position: fixed; z-index: 16; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 10px); transform: translateX(-50%);
+  display: flex; gap: 6px; padding: 5px 12px; border-radius: 999px; background: rgba(40, 12, 8, .5);
+  border: 1px solid rgba(212, 166, 78, .55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity .8s ease; pointer-events: none; }
+.lamps.show { opacity: 1; }
+.lamp { width: 20px; height: 20px; }
+.lamp svg { width: 100%; height: 100%; overflow: visible; }
+.lamp .bowl { fill: #c99b4a; } .lamp .rim { stroke: #f3d999; stroke-width: 1; fill: none; }
+.lamp .flame { fill: #ffd27a; opacity: .12; transform-origin: 12px 11px; transition: opacity .6s ease, filter .6s ease; }
+.lamp.lit .flame { opacity: 1; filter: drop-shadow(0 0 4px #ffb347) drop-shadow(0 0 8px rgba(255, 170, 60, .7)); animation: flick 1.6s ease-in-out infinite; }
+.lamp.just .flame { animation: ignite .9s ease-out, flick 1.6s ease-in-out .9s infinite; }
+@keyframes flick { 50% { transform: scale(.92, 1.06) translateY(-.4px); } }
+@keyframes ignite { 0% { transform: scale(.2); opacity: 0; } 60% { transform: scale(1.5); opacity: 1; } 100% { transform: scale(1); } }
+
+/* touch-to-bless moments */
+.tapzone { position: absolute; left: 0; right: 0; top: 0; z-index: 2; cursor: pointer; background: transparent; border: 0; padding: 0; }
+.tapzone:focus-visible { outline: 2px dashed rgba(255, 220, 150, .8); outline-offset: -6px; }
+.hint-pill { position: absolute; left: 50%; z-index: 4; transform: translateX(-50%); white-space: nowrap; pointer-events: none;
+  font-family: var(--display); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: #fff4dc;
+  background: rgba(70, 14, 22, .78); border: 1px solid var(--gold-lite); padding: .42rem .9rem; border-radius: 999px;
+  box-shadow: 0 0 0 0 rgba(255, 210, 130, .5); animation: beckon 2.4s ease-in-out infinite; transition: opacity .6s ease; }
+.hint-pill.done { animation: none; background: rgba(107, 20, 36, .9); }
+.hint-pill[hidden] { display: none !important; }
+@keyframes beckon { 50% { box-shadow: 0 0 0 10px rgba(255, 210, 130, 0); } 0% { box-shadow: 0 0 0 0 rgba(255, 210, 130, .55); } }
+.radiance { position: absolute; left: 50%; top: 19%; width: 120vmax; height: 120vmax; transform: translate(-50%, -50%) scale(.2);
+  pointer-events: none; z-index: 1; opacity: 0; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 246, 210, .95) 0%, rgba(255, 214, 130, .55) 14%, rgba(255, 190, 90, 0) 42%),
+              repeating-conic-gradient(from 0deg, rgba(255, 228, 160, .28) 0 6deg, rgba(255, 228, 160, 0) 6deg 18deg);
+  -webkit-mask: radial-gradient(circle, #000 0 30%, transparent 55%); mask: radial-gradient(circle, #000 0 30%, transparent 55%); }
+.radiance.go { animation: radiate 3s ease-out forwards; }
+@keyframes radiate { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.2) rotate(0); } 25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1) rotate(40deg); } }
+.blessed .names.divine .hl { animation: blessGlow 2.4s ease-in-out infinite; }
+@keyframes blessGlow { 50% { text-shadow: 0 1px 0 rgba(255, 240, 200, .8), 0 0 26px rgba(255, 196, 90, .95); } }
+.fx-petals { position: fixed; inset: 0; z-index: 12; pointer-events: none; width: 100%; height: 100%; }
+
+/* light a diya with your blessing */
+.diya-hold { display: grid; justify-items: center; gap: .4rem; margin-top: .45rem; }
+.diya-btn { --p: 0; position: relative; width: 78px; height: 78px; border-radius: 50%; border: 0; cursor: pointer; padding: 0;
+  background: radial-gradient(circle at 50% 40%, #3a160c, #160805); touch-action: none; -webkit-user-select: none; user-select: none;
+  box-shadow: 0 0 0 3px #d4a64e, 0 10px 26px rgba(30, 10, 2, .5); }
+.diya-btn::before { content: ""; position: absolute; inset: -7px; border-radius: 50%;
+  background: conic-gradient(#ffcf6b calc(var(--p) * 360deg), rgba(255, 207, 107, .15) 0); -webkit-mask: radial-gradient(circle, transparent 45px, #000 46px); mask: radial-gradient(circle, transparent 45px, #000 46px); }
+.diya-btn svg { width: 50px; height: 50px; margin-top: 4px; overflow: visible; }
+.diya-btn .bowl { fill: #d9a647; } .diya-btn .rim { stroke: #fbe7b0; stroke-width: 1; fill: none; }
+.diya-btn .flame { fill: #ffd27a; transform-origin: 12px 11px; transform: scale(calc(.15 + var(--p) * .85)); opacity: calc(.2 + var(--p) * .8); }
+.diya-btn.lit { box-shadow: 0 0 0 3px #d4a64e, 0 0 50px 18px rgba(255, 190, 90, .7); }
+.diya-btn.lit .flame { filter: drop-shadow(0 0 6px #ffb347); animation: flick 1.4s ease-in-out infinite; }
+.diya-btn:focus-visible { outline: 3px solid var(--saffron); outline-offset: 6px; }
+.diya-label { font-family: var(--display); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--kumkum); text-align: center; }
+
+/* the thank-you finale */
+.greet { margin: 0; font-style: italic; font-weight: 700; font-size: 1.15rem; color: var(--kumkum); }
+.thanks-name { font-family: var(--body); font-style: italic; font-weight: 700; font-size: clamp(2.2rem, 10vw, 2.9rem); line-height: 1.05; color: var(--kumkum); margin: 0; text-wrap: balance; }
+.relive { background: none; border: 0; font-family: var(--display); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; padding: .3rem; }
+.relive[hidden] { display: none !important; }
+
 /* page change: a dip into warm darkness, then the next page */
 .veil { position: fixed; inset: 0; z-index: 30; pointer-events: none; opacity: 0;
   background: radial-gradient(ellipse at 50% 45%, #4a2010 0%, #1c0b05 60%, #0e0503 100%);
@@ -307,6 +365,13 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 .names.divine .sym { position: absolute; left: 50%; top: -.76em; width: .52em; height: .74em; transform: translateX(-50%); }
 .names.divine .sym.lotus { width: .78em; height: .5em; top: -.52em; }
 
+#gate { overflow-y: hidden; }
+@media (max-height: 700px) {
+  .notes { gap: .38rem; } .notes .d { font-size: .88rem; line-height: 1.25; } .notes .ico { width: 30px; height: 30px; }
+  .notes li { grid-template-columns: 30px 1fr; }
+  #remember .lede { display: none; } #remember .paper { padding-top: 1.75rem; gap: .3rem; }
+}
+
 /* things to remember */
 .notes { list-style: none; margin: .2rem 0 0; padding: 0; display: grid; gap: .55rem; text-align: left; width: 100%; }
 .notes li { display: grid; grid-template-columns: 34px 1fr; gap: .6rem; align-items: start; }
@@ -369,6 +434,8 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 
 <div class="backdrop" id="backdrop" aria-hidden="true" style="background-image:url('gate-closed.jpg')"></div>
 <div class="veil" id="veil" aria-hidden="true"></div>
+<div class="lamps" id="lamps" aria-hidden="true"><span class="lamp"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></span><span class="lamp"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></span><span class="lamp"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></span><span class="lamp"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></span><span class="lamp"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></span><span class="lamp"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></span><span class="lamp"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></span><span class="lamp"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></span></div>
+<canvas class="fx-petals" id="fxPetals" aria-hidden="true"></canvas>
 <main class="reel" id="reel">
 
   <!-- 1. The closed gate: call to action -->
@@ -398,6 +465,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <div class="rod top" aria-hidden="true"></div>
         <div class="paper zone">
         <span class="eyebrow">The ShivGauri Saga</span>
+        <p class="greet" id="greet" hidden></p>
         <p class="lede" style="margin:0">High in the Himalaya, Gauri waited<br>an age for her Shiva.<br>Now two hearts, two families, one saga,<br>and a place kept just for you.</p>
         <div class="rule" aria-hidden="true"></div>
         <span class="hint">Sound the shankh on the gate to enter</span>
@@ -410,6 +478,8 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   <!-- 2. Lord Ganesha's blessing -->
   <section class="screen" id="ganesh" aria-label="Lord Ganesha's blessing">
     <div class="bg kenburns" style="background-image:url('gate-open.jpg')"><canvas class="ganesha-fx" id="ganeshaFx" aria-hidden="true"></canvas></div>
+    <button class="tapzone" type="button" data-bless="ganesh" style="height:44%" aria-label="Receive Ganesha's blessing"></button>
+    <span class="hint-pill" data-hint="ganesh" style="top:calc(env(safe-area-inset-top,0px) + 48px)" hidden>Touch Ganesha for his blessing</span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -428,6 +498,9 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   <!-- 3. Shree Chakra: Mata Tripura Sundari's blessings and the families -->
   <section class="screen" id="blessings" aria-label="Blessings">
     <div class="bg kenburns" style="background-image:url('shree-chakra.jpg')"></div>
+    <div class="radiance" id="radiance" aria-hidden="true"></div>
+    <button class="tapzone" type="button" data-bless="chakra" style="height:40%" aria-label="Touch the Shree Chakra"></button>
+    <span class="hint-pill" data-hint="chakra" style="top:calc(env(safe-area-inset-top,0px) + 48px)">Touch the Shree Chakra</span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -449,6 +522,8 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   <!-- 4. Shiv–Parvati Sangam -->
   <section class="screen" id="sangam" aria-label="The invitation">
     <div class="bg kenburns" style="background-image:url('shiv-parvati.jpg')"></div>
+    <button class="tapzone" type="button" data-bless="petals" style="height:36%" aria-label="Shower petals on the couple"></button>
+    <span class="hint-pill" data-hint="petals" id="petalHint" style="top:calc(env(safe-area-inset-top,0px) + 48px)">Tap to shower blessings · 0/7</span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -517,21 +592,42 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
     <div class="zone bottom" style="padding-bottom:max(2dvh,12px)">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
-        <div class="paper zone">
+        <div class="paper zone" style="gap:.35rem">
         <p class="mantra small" lang="sa" style="margin:0">॥ शुभ विवाह ॥</p>
-        <p class="hash" style="margin:0;font-size:clamp(1.8rem,8vw,2.2rem)">#ShivGauriSaga</p>
-        <p class="lede" style="margin:0;font-size:1rem">Every saga needs its witnesses.<br>Will you be ours?</p>
-        <p class="fine" style="margin:0;font-size:.95rem">With love,<br><span style="color:var(--kumkum)">Smt. Sweety &amp; Sh. Suresh Kumar Dhar</span><br>and the Dhar family</p>
+        <p class="lede" style="margin:0;font-size:1.05rem">Every saga needs its witnesses.<br>Will you be ours?</p>
         <div class="rsvp" aria-label="RSVP">
           <span class="eyebrow">RSVP</span>
           <div class="rsvp-row"><span class="who">Sh. Suresh Kumar Dhar</span></div>
           <div class="rsvp-row"><span class="who">Smt. Sweety Dhar</span></div>
           <div class="rsvp-row"><span class="who">Himani Dhar</span></div>
         </div>
+        <div class="diya-hold">
+          <button class="diya-btn" id="diyaBtn" type="button" aria-label="Press and hold to light a diya with your blessing"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></button>
+          <span class="diya-label" id="diyaLabel">Press &amp; hold the diya<br>to light your blessing</span>
+        </div>
         </div>
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
       </div>
-      <div class="actions"><a class="btn ghost" href="#gate">Back to the gates</a></div>
+    </div>
+  </section>
+
+  <!-- Finale: thank you -->
+  <section class="screen" id="finale" aria-label="Thank you">
+    <div class="bg kenburns" style="background-image:url('gate-closed.jpg')"></div>
+    <div class="zone bottom" style="padding-bottom:max(4dvh,22px)">
+      <div class="scroll" data-unroll>
+        <div class="rod top" aria-hidden="true"></div>
+        <div class="paper zone">
+        <p class="mantra" lang="sa" style="margin:0">॥ धन्यवाद ॥</p>
+        <p class="thanks-name" id="thanksName">Thank you</p>
+        <p class="lede" style="margin:0;font-size:1.05rem">Your diya now burns in our saga.<br>The gates will open again for you<br>on the 24th of January.</p>
+        <div class="rule" aria-hidden="true"></div>
+        <p class="fine" style="margin:0">With love and gratitude,<br><span style="color:var(--kumkum)">Shivani &amp; Gaurav</span><br>and the Dhar family</p>
+        <p class="hash" style="margin:.1rem 0 0;font-size:1.7rem">#ShivGauriSaga</p>
+        <button class="relive" id="relive" type="button" hidden>Relive the saga</button>
+        </div>
+        <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
+      </div>
     </div>
   </section>
 </main>
@@ -549,6 +645,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 </button>
 <audio id="music" src="music.mp3" loop preload="auto"></audio>
 <audio id="shankh" src="shankh.mp3" preload="auto"></audio>
+<audio id="chime" src="chime.mp3" preload="auto"></audio>
 
 <script>
 /* ---- Edit ceremony details here. Leave time empty ("") until it is confirmed: the page then says
@@ -742,7 +839,7 @@ function go(id) {
 }
 // keep the right page in place if the window is resized or the phone rotates
 let currentId = 'gate';
-const pageIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.6) currentId = e.target.id; }),
+const pageIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.6 && currentId !== e.target.id) { currentId = e.target.id; if (window.onPage) window.onPage(currentId); } }),
   { root: reelEl, threshold: [0.6] });
 document.querySelectorAll('.screen').forEach(sc => pageIO.observe(sc));
 addEventListener('resize', () => { const t = document.getElementById(currentId); if (t) reelEl.scrollTop = t.offsetTop; });
@@ -933,6 +1030,153 @@ document.querySelectorAll('#closing .actions a[href^="#"]').forEach(a => a.addEv
     }), { root: document.getElementById('reel'), threshold: [0, 0.5] }).observe(sec);
   } else start();
 })();
+
+
+/* ---------- a personal welcome: send each family their own link, e.g. ...?g=Mehta+Family ---------- */
+const GUEST = (() => {
+  let g = '';
+  try { g = new URLSearchParams(location.search).get('g') || ''; } catch (_) {}
+  return g.replace(/[<>]/g, '').trim().slice(0, 40);
+})();
+if (GUEST) {
+  const el = document.getElementById('greet');
+  el.textContent = `Dear ${GUEST},`; el.hidden = false;
+}
+
+/* ---------- sound and touch feedback ---------- */
+const chimeEl = document.getElementById('chime');
+function chime(vol = 0.9) {
+  try { const c = chimeEl.cloneNode(); c.volume = vol; c.play().catch(() => {}); } catch (_) {}
+  try { navigator.vibrate && navigator.vibrate([18, 40, 18]); } catch (_) {}
+}
+
+/* ---------- petals and gold dust that fall wherever a guest blesses ---------- */
+const fx = (() => {
+  const cv = document.getElementById('fxPetals'); const ctx = cv.getContext('2d');
+  let parts = [], running = false, last = 0, dpr = 1;
+  const COLS = ['#e9557a', '#f28aa5', '#f7b9c8', '#ff9f43', '#ffd27a', '#fff1d6'];
+  function size() { dpr = Math.min(2, devicePixelRatio || 1); cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; }
+  size(); addEventListener('resize', size);
+  function burst(x, y, n = 26, spread = 1, rain = false) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, sp = (rain ? 0 : 60 + Math.random() * 180) * spread;
+      parts.push({ x: rain ? Math.random() * innerWidth : x, y: rain ? -20 - Math.random() * 200 : y,
+        vx: Math.cos(a) * sp, vy: rain ? 40 + Math.random() * 50 : Math.sin(a) * sp - 120, rot: Math.random() * 6.28,
+        vr: (Math.random() - .5) * 5, sw: Math.random() * 6.28, sc: .7 + Math.random() * .8, dust: Math.random() < .4,
+        col: COLS[(Math.random() * COLS.length) | 0], life: 0, max: rain ? 9 : 4 + Math.random() * 2 });
+    }
+    if (!running) { running = true; last = performance.now(); requestAnimationFrame(tick); }
+  }
+  function tick(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, innerWidth, innerHeight);
+    parts = parts.filter(p => (p.life += dt) < p.max && p.y < innerHeight + 30);
+    for (const p of parts) {
+      p.vy += 160 * dt; p.vx *= (1 - 1.6 * dt); if (p.vy > 90) p.vy = 90;
+      p.sw += dt * 2; p.x += (p.vx + Math.sin(p.sw) * 22) * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+      const a = Math.min(1, p.life / .2) * Math.min(1, (p.max - p.life) / 1);
+      if (p.dust) {
+        ctx.globalCompositeOperation = 'lighter';
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 7 * p.sc);
+        g.addColorStop(0, `rgba(255,238,180,${a})`); g.addColorStop(1, 'rgba(255,190,90,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, 7 * p.sc, 0, 6.283); ctx.fill();
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.scale(p.sc, p.sc); ctx.globalAlpha = a; ctx.fillStyle = p.col;
+        ctx.beginPath(); ctx.moveTo(0, -8); ctx.bezierCurveTo(6.5, -5, 6.5, 5, 0, 9); ctx.bezierCurveTo(-6.5, 5, -6.5, -5, 0, -8); ctx.fill(); ctx.restore();
+      }
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    if (parts.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+  return { burst };
+})();
+
+/* ---------- saga lamps: one diya lights for every step of the journey ---------- */
+const LAMP_ORDER = ['ganesh', 'blessings', 'sangam', 'maenziraat', 'devgon', 'lagan', 'remember', 'closing'];
+const lamps = [...document.querySelectorAll('#lamps .lamp')];
+const lampsBox = document.getElementById('lamps');
+function lightLamp(i) { const l = lamps[i]; if (l && !l.classList.contains('lit')) { l.classList.add('lit', 'just'); setTimeout(() => l.classList.remove('just'), 1000); } }
+
+/* ---------- touch-to-bless moments ---------- */
+const hints = {}; document.querySelectorAll('[data-hint]').forEach(h => hints[h.dataset.hint] = h);
+let petalCount = 0;
+document.querySelectorAll('[data-bless]').forEach(z => z.addEventListener('click', ev => {
+  const x = ev.clientX || innerWidth / 2, y = ev.clientY || innerHeight * .3;
+  const kind = z.dataset.bless;
+  if (kind === 'ganesh') {
+    fx.burst(x, y, 40, 1.1); chime();
+    const h = hints.ganesh; h.textContent = 'Ganesha blesses your path'; h.classList.add('done'); setTimeout(() => h.hidden = true, 2600);
+  } else if (kind === 'chakra') {
+    const r = document.getElementById('radiance'); r.classList.remove('go'); void r.offsetWidth; r.classList.add('go');
+    fx.burst(x, y, 18, .7); chime();
+    const h = hints.chakra; h.textContent = 'The Shree Chakra glows for you'; h.classList.add('done'); setTimeout(() => h.hidden = true, 2800);
+  } else if (kind === 'petals') {
+    petalCount++; fx.burst(x, y, 30, 1);
+    const h = hints.petals;
+    if (petalCount < 7) { chime(.5); h.textContent = `Tap to shower blessings · ${petalCount}/7`; }
+    else if (petalCount === 7) {
+      chime(1); setTimeout(() => chime(.7), 380);
+      fx.burst(innerWidth / 2, innerHeight * .2, 80, 1.6);
+      document.querySelector('#sangam .scroll').classList.add('blessed');
+      h.textContent = 'Seven blessings · Saptapadi complete'; h.classList.add('done');
+      setTimeout(() => h.hidden = true, 3600);
+    }
+  }
+}));
+
+/* ---------- light a diya: press and hold ---------- */
+(() => {
+  const btn = document.getElementById('diyaBtn'), label = document.getElementById('diyaLabel');
+  let p = 0, holding = false, done = false, raf = 0, t0 = 0;
+  const HOLD = 1600;
+  const set = v => btn.style.setProperty('--p', v.toFixed(3));
+  function complete() {
+    if (done) return; done = true; set(1); btn.classList.add('lit');
+    label.textContent = 'Your diya is lit'; chime(1); setTimeout(() => chime(.6), 420);
+    const r = btn.getBoundingClientRect(); fx.burst(r.left + r.width / 2, r.top + r.height / 2, 90, 1.5);
+    setTimeout(() => go('finale'), 2000);
+  }
+  function grow(now) {
+    if (!holding || done) return;
+    p = Math.min(1, (now - t0) / HOLD); set(p);
+    if (p >= 1) complete(); else raf = requestAnimationFrame(grow);
+  }
+  function fade() {
+    if (holding || done) return;
+    p = Math.max(0, p - .04); set(p); if (p > 0) requestAnimationFrame(fade);
+  }
+  btn.addEventListener('pointerdown', e => { if (done) return; e.preventDefault(); try { btn.setPointerCapture(e.pointerId); } catch (_) {}
+    holding = true; t0 = performance.now() - p * HOLD; cancelAnimationFrame(raf); raf = requestAnimationFrame(grow); });
+  const release = () => { if (!holding) return; holding = false; if (!done) requestAnimationFrame(fade); };
+  btn.addEventListener('pointerup', release); btn.addEventListener('pointercancel', release); btn.addEventListener('lostpointercapture', release);
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+  btn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); complete(); } });
+})();
+
+/* ---------- what happens as each page arrives ---------- */
+let finaleShown = false;
+window.onPage = id => {
+  lampsBox.classList.toggle('show', id !== 'gate');
+  const i = LAMP_ORDER.indexOf(id); if (i >= 0) lightLamp(i);
+  if (id === 'ganesh' && hints.ganesh && !hints.ganesh.classList.contains('done')) setTimeout(() => { if (currentId === 'ganesh') hints.ganesh.hidden = false; }, 4600);
+  if (id === 'finale' && !finaleShown) {
+    finaleShown = true;
+    lamps.forEach((_, k) => setTimeout(() => lightLamp(k), 120 * k));
+    document.getElementById('thanksName').textContent = GUEST ? `Thank you, ${GUEST}` : 'Thank you';
+    setTimeout(() => fx.burst(0, 0, 70, 1, true), 1800);
+    setTimeout(() => fx.burst(0, 0, 50, 1, true), 5200);
+    // the music bows out gently, and the saga rests
+    setTimeout(() => {
+      const v0 = music.volume || 1; const t0 = performance.now();
+      const step = now => { const q = Math.min(1, (now - t0) / 7000); try { music.volume = v0 * (1 - q); } catch (_) {}
+        if (q < 1) requestAnimationFrame(step); else { music.pause(); try { music.volume = 1; } catch (_) {} setSound(false); } };
+      requestAnimationFrame(step);
+    }, 6000);
+    setTimeout(() => { const r = document.getElementById('relive'); r.hidden = false; }, 9000);
+  }
+};
+document.getElementById('relive').addEventListener('click', () => location.reload());
 
 /* open the gates: the shankh sounds alone; when it completes, Dheemta Dheemta begins */
 const gate = document.getElementById('gate');
