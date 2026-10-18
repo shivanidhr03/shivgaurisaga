@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.png">
 <style>*,*::before,*::after{box-sizing:border-box} html,body{margin:0;height:100%} img{max-width:100%} [hidden]{display:none!important}
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</style>
 <title>ShivGauri Saga</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,14 +45,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 .reel {
-  height: 100dvh;
+  height: 100vh; height: var(--app-h, 100dvh);
   overflow: hidden;            /* pages change only on a tap */
   touch-action: pan-y;
 }
 .screen {
   position: relative;
-  width: min(100%, calc(100dvh * 9 / 16));
-  height: 100dvh;
+  width: min(100%, calc(var(--app-h, 100dvh) * 9 / 16));
+  height: 100vh; height: var(--app-h, 100dvh);
+  padding-top: env(safe-area-inset-top, 0px) !important;
   margin-inline: auto;
   overflow-x: hidden;
   overflow-y: auto;            /* only when a small phone needs it, within the page */
@@ -153,7 +154,9 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 
 /* next-step call to action on every screen */
 .next {
-  align-self: center; margin-bottom: max(2.2dvh, 14px);
+  align-self: center; flex-shrink: 0; z-index: 6;
+  position: sticky; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+  margin-top: 10px; margin-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
   display: inline-flex; align-items: center; gap: .4rem;
   font-family: var(--display); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
   color: #fff8ec; background: rgba(107, 20, 36, .88); border: 1px solid var(--gold-lite);
@@ -168,6 +171,22 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 .event .zone.bottom { padding-bottom: 10px; }
 #devgon .next { margin-top: auto; }
 .gate-hint { font-family: var(--display); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+
+
+/* help for every guest: a tapping hand and a Hindi line under each instruction */
+.hi { display: block; font-family: var(--deva); text-transform: none; letter-spacing: 0; font-size: .92em; line-height: 1.35; margin-top: .12rem; opacity: .95; }
+.tap-hand { width: 18px; height: 18px; flex-shrink: 0; color: #ffe3a3; animation: tapTap 1.3s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes tapTap { 0%, 60%, 100% { transform: translateY(0) scale(1); } 30% { transform: translateY(3px) scale(.86); } }
+@media (prefers-reduced-motion: reduce) { .tap-hand { animation: none; } }
+.next .lbl { display: grid; text-align: center; line-height: 1.15; }
+.next .hi { font-size: .95rem; margin-top: .05rem; }
+.hint-pill, .lock-label { display: inline-flex; align-items: center; gap: .5rem; text-align: center; }
+.hint-pill .lbl, .lock-label .lbl { display: grid; line-height: 1.2; }
+.hint-pill .hi, .lock-label .hi { font-size: .95rem; }
+.btn .lbl { display: grid; text-align: left; line-height: 1.1; }
+.btn .hi { font-size: .82rem; margin-top: .08rem; }
+.diya-label .hi { font-size: .95rem; color: var(--kumkum); }
+.gate-hi { display: block; font-family: var(--deva); font-style: normal; font-size: 1rem; color: var(--kumkum); }
 
 /* royal scrolls: parchment mounted in maroon silk and gold, between engraved gold rollers with crimson tassels */
 @property --u { syntax: '<number>'; inherits: true; initial-value: 1; }
@@ -410,9 +429,9 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 .count span { font-family: var(--display); font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
 
 .sound {
-  position: fixed; right: max(14px, calc(50% - min(50%, calc(100dvh * 9 / 32)) + 14px));
-  bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 10;
-  width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--gold-lite);
+  position: fixed; right: max(12px, calc(50% - min(50%, calc(var(--app-h, 100dvh) * 9 / 32)) + 12px));
+  top: calc(8px + env(safe-area-inset-top, 0px)); z-index: 17;
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--gold-lite);
   background: rgba(107, 20, 36, .85); color: #fff1d8; cursor: pointer; display: grid; place-items: center;
 }
 .sound svg { width: 20px; height: 20px; }
@@ -458,7 +477,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <circle cx="50" cy="118" r="3" fill="#6b1424"/>
       </svg>
     </button>
-    <span class="lock-label" aria-hidden="true">Sound the shankh</span>
+    <span class="lock-label" aria-hidden="true"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Tap the shankh<span class="hi" lang="hi">शंख को छुएँ</span></span></span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -467,7 +486,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <p class="greet" id="greet" hidden></p>
         <p class="lede" style="margin:0">High in the Himalaya, Gauri waited<br>an age for her Shiva.<br>Now two hearts, two families, one saga,<br>and a place kept just for you.</p>
         <div class="rule" aria-hidden="true"></div>
-        <span class="hint">Sound the shankh on the gate to enter</span>
+        <span class="hint">Tap the shankh on the gate to enter<span class="gate-hi" lang="hi">प्रवेश के लिए द्वार पर शंख को छुएँ</span></span>
         </div>
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
       </div>
@@ -478,7 +497,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
   <section class="screen" id="ganesh" aria-label="Lord Ganesha's blessing">
     <div class="bg kenburns" style="background-image:url('gate-open.jpg')"><canvas class="ganesha-fx" id="ganeshaFx" aria-hidden="true"></canvas></div>
     <button class="tapzone" type="button" data-bless="ganesh" style="height:44%" aria-label="Receive Ganesha's blessing"></button>
-    <span class="hint-pill" data-hint="ganesh" style="top:calc(env(safe-area-inset-top,0px) + 48px)" hidden>Touch Ganesha for his blessing</span>
+    <span class="hint-pill" data-hint="ganesh" style="top:calc(env(safe-area-inset-top,0px) + 56px)" hidden><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Touch Ganesha for his blessing<span class="hi" lang="hi">आशीर्वाद के लिए गणेश जी को छुएँ</span></span></span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -491,7 +510,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
       </div>
     </div>
-      <a class="next" href="#blessings" data-next="blessings">Continue to the blessings<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+      <a class="next" href="#blessings" data-next="blessings"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Continue to the blessings<span class="hi" lang="hi">आगे बढ़ें · आशीर्वाद</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   </section>
 
   <!-- 3. Shree Chakra: Mata Tripura Sundari's blessings and the families -->
@@ -499,7 +518,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
     <div class="bg kenburns" style="background-image:url('shree-chakra.jpg')"></div>
     <div class="radiance" id="radiance" aria-hidden="true"></div>
     <button class="tapzone" type="button" data-bless="chakra" style="height:40%" aria-label="Touch the Shree Chakra"></button>
-    <span class="hint-pill" data-hint="chakra" style="top:calc(env(safe-area-inset-top,0px) + 48px)">Touch the Shree Chakra</span>
+    <span class="hint-pill" data-hint="chakra" style="top:calc(env(safe-area-inset-top,0px) + 56px)"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Touch the Shree Chakra<span class="hi" lang="hi">श्री चक्र को छुएँ</span></span></span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -515,14 +534,14 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
       </div>
     </div>
-      <a class="next" href="#sangam" data-next="sangam">Meet the couple<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+      <a class="next" href="#sangam" data-next="sangam"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Meet the couple<span class="hi" lang="hi">आगे बढ़ें · वर-वधू</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   </section>
 
   <!-- 4. Shiv–Parvati Sangam -->
   <section class="screen" id="sangam" aria-label="The invitation">
     <div class="bg kenburns" style="background-image:url('shiv-parvati.jpg')"></div>
     <button class="tapzone" type="button" data-bless="petals" style="height:36%" aria-label="Shower petals on the couple"></button>
-    <span class="hint-pill" data-hint="petals" id="petalHint" style="top:calc(env(safe-area-inset-top,0px) + 48px)">Tap to shower blessings · 0/7</span>
+    <span class="hint-pill" data-hint="petals" id="petalHint" style="top:calc(env(safe-area-inset-top,0px) + 56px)"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Tap to shower blessings · 0/7<span class="hi" lang="hi">पुष्प-वर्षा के लिए छुएँ · 0/7</span></span></span>
     <div class="zone bottom">
       <div class="scroll" data-unroll>
         <div class="rod top" aria-hidden="true"></div>
@@ -539,26 +558,26 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
       </div>
     </div>
-      <a class="next" href="#maenziraat" data-next="maenziraat">See the ceremonies<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+      <a class="next" href="#maenziraat" data-next="maenziraat"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">See the ceremonies<span class="hi" lang="hi">आगे बढ़ें · समारोह</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   </section>
 
   <!-- 5–7. Ceremonies (filled from EVENTS below) -->
   <section class="screen event" id="maenziraat" aria-label="Maenziraat">
     <div class="bg kenburns" style="background-image:url('maenziraat.jpg')"></div>
     <div class="zone bottom" data-event="maenziraat"></div>
-      <a class="next" href="#devgon" data-next="devgon">Next: Devgon<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+      <a class="next" href="#devgon" data-next="devgon"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Next: Devgon<span class="hi" lang="hi">आगे बढ़ें · देवगोन</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   </section>
 
   <section class="screen event" id="devgon" aria-label="Devgon">
     <div class="bg kenburns" style="background-image:url('devgon.jpg')"></div>
     <div class="zone top" data-event="devgon"></div>
-      <a class="next" href="#lagan" data-next="lagan">Next: Lagan<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+      <a class="next" href="#lagan" data-next="lagan"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Next: Lagan<span class="hi" lang="hi">आगे बढ़ें · लगन</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   </section>
 
   <section class="screen event" id="lagan" aria-label="Lagan">
     <div class="bg kenburns" style="background-image:url('lagan.jpg')"></div>
     <div class="zone bottom" data-event="lagan"></div>
-      <a class="next" href="#remember" data-next="remember">Next: Things to remember<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+      <a class="next" href="#remember" data-next="remember"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Next: Things to remember<span class="hi" lang="hi">आगे बढ़ें · ज़रूरी बातें</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   </section>
 
   <!-- Things to remember -->
@@ -582,7 +601,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
       </div>
     </div>
-      <a class="next" href="#closing" data-next="closing">Next: RSVP<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+      <a class="next" href="#closing" data-next="closing"><svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Next: RSVP<span class="hi" lang="hi">आगे बढ़ें · संपर्क</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
   </section>
 
   <!-- 8. Closing -->
@@ -602,7 +621,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         </div>
         <div class="diya-hold">
           <button class="diya-btn" id="diyaBtn" type="button" aria-label="Press and hold to light a diya with your blessing"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="flame" d="M12 2.5c2.2 3 3.2 5.4 0 8.6-3.2-3.2-2.2-5.6 0-8.6Z"/><path class="bowl" d="M2.5 12.5h19c-1 4.4-4.8 6.8-9.5 6.8s-8.5-2.4-9.5-6.8Z"/><path class="rim" d="M2.5 12.5h19"/></svg></button>
-          <span class="diya-label" id="diyaLabel">Press &amp; hold the diya<br>to light your blessing</span>
+          <span class="diya-label" id="diyaLabel">Press &amp; hold the diya<br>to light your blessing<span class="hi" lang="hi">दीया जलाने के लिए दबाकर रखें</span></span>
         </div>
         </div>
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
@@ -623,7 +642,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
         <div class="rule" aria-hidden="true"></div>
         <p class="fine" style="margin:0">With love and gratitude,<br><span style="color:var(--kumkum)">Shivani &amp; Gaurav</span><br>and the Dhar family</p>
         <p class="hash" style="margin:.1rem 0 0;font-size:1.7rem">#ShivGauriSaga</p>
-        <button class="relive" id="relive" type="button" hidden>Relive the saga</button>
+        <button class="relive" id="relive" type="button" hidden>Relive the saga · फिर से देखें</button>
         </div>
         <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
       </div>
@@ -734,10 +753,10 @@ for (const [key, e] of Object.entries(EVENTS)) {
       </div>
       ${dress}
       <div class="actions">
-        <a class="btn" href="${IS_APPLE ? key + '.ics' : googleLink(e)}" ${IS_APPLE ? '' : 'target="_blank" rel="noopener"'}>${ICON_CAL}${CAL_LABEL}</a>
-        <a class="btn ghost" href="${mapLink(e)}" target="_blank" rel="noopener">${ICON_PIN}Map</a>
+        <a class="btn" href="${IS_APPLE ? key + '.ics' : googleLink(e)}" ${IS_APPLE ? '' : 'target="_blank" rel="noopener"'}>${ICON_CAL}<span class="lbl">${CAL_LABEL}<span class="hi" lang="hi">कैलेंडर में जोड़ें</span></span></a>
+        <a class="btn ghost" href="${mapLink(e)}" target="_blank" rel="noopener">${ICON_PIN}<span class="lbl">Map<span class="hi" lang="hi">रास्ता</span></span></a>
       </div>
-      <button class="btn tradition" type="button" data-trad="${key}">${ICON_BOOK}Know the tradition</button>
+      <button class="btn tradition" type="button" data-trad="${key}">${ICON_BOOK}<span class="lbl">Know the tradition<span class="hi" lang="hi">परंपरा जानें</span></span></button>
      </div>
      <div class="rod bottom" aria-hidden="true"><i class="tassel l"></i><i class="tassel r"></i></div>
     </div>`;
@@ -845,6 +864,10 @@ let currentId = 'gate';
 const pageIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.6 && currentId !== e.target.id) { currentId = e.target.id; if (window.onPage) window.onPage(currentId); } }),
   { root: reelEl, threshold: [0.6] });
 document.querySelectorAll('.screen').forEach(sc => pageIO.observe(sc));
+const setAppH = () => document.documentElement.style.setProperty('--app-h', Math.round(window.innerHeight) + 'px');
+setAppH();
+['resize', 'orientationchange', 'fullscreenchange', 'webkitfullscreenchange'].forEach(ev => addEventListener(ev, () => { setAppH(); setTimeout(setAppH, 350); }));
+document.addEventListener('fullscreenchange', () => setTimeout(() => { setAppH(); const t = document.getElementById(currentId); if (t) reelEl.scrollTop = t.offsetTop; }, 400));
 addEventListener('resize', () => { const t = document.getElementById(currentId); if (t) reelEl.scrollTop = t.offsetTop; });
 // block keyboard paging between screens
 reelEl.addEventListener('keydown', e => { if (['PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', ' ', 'End', 'Home'].includes(e.key) && e.target === reelEl) e.preventDefault(); });
@@ -1118,20 +1141,20 @@ document.querySelectorAll('[data-bless]').forEach(z => z.addEventListener('click
   const kind = z.dataset.bless;
   if (kind === 'ganesh') {
     fx.burst(x, y, 40, 1.1); try { navigator.vibrate && navigator.vibrate(18); } catch (_) {}
-    const h = hints.ganesh; h.textContent = 'Ganesha blesses your path'; h.classList.add('done'); setTimeout(() => h.hidden = true, 2600);
+    const h = hints.ganesh; h.innerHTML = '<span class="lbl">Ganesha blesses your path<span class="hi" lang="hi">गणेश जी का आशीर्वाद</span></span>'; h.classList.add('done'); setTimeout(() => h.hidden = true, 2600);
   } else if (kind === 'chakra') {
     const r = document.getElementById('radiance'); r.classList.remove('go'); void r.offsetWidth; r.classList.add('go');
     fx.burst(x, y, 18, .7); try { navigator.vibrate && navigator.vibrate(18); } catch (_) {}
-    const h = hints.chakra; h.textContent = 'The Shree Chakra glows for you'; h.classList.add('done'); setTimeout(() => h.hidden = true, 2800);
+    const h = hints.chakra; h.innerHTML = '<span class="lbl">The Shree Chakra glows for you<span class="hi" lang="hi">माँ का आशीर्वाद</span></span>'; h.classList.add('done'); setTimeout(() => h.hidden = true, 2800);
   } else if (kind === 'petals') {
     petalCount++; fx.burst(x, y, 30, 1);
     const h = hints.petals;
-    if (petalCount < 7) { chime(.5); h.textContent = `Tap to shower blessings · ${petalCount}/7`; }
+    if (petalCount < 7) { chime(.5); h.innerHTML = `<svg class="tap-hand" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 11V4.6a1.6 1.6 0 0 1 3.2 0V10h.4V8.7a1.6 1.6 0 0 1 3.2 0V10.4h.2a1.6 1.6 0 0 1 3 .7V15c0 3.7-2.5 6.2-6.2 6.2h-1c-2 0-3.4-.8-4.5-2.3l-3-4.1a1.6 1.6 0 0 1 2.5-2Z"/></svg><span class="lbl">Tap to shower blessings · ${petalCount}/7<span class="hi" lang="hi">पुष्प-वर्षा के लिए छुएँ · ${petalCount}/7</span></span>`; }
     else if (petalCount === 7) {
       chime(1); setTimeout(() => chime(.7), 380);
       fx.burst(innerWidth / 2, innerHeight * .2, 80, 1.6);
       document.querySelector('#sangam .scroll').classList.add('blessed');
-      h.textContent = 'Seven blessings · Saptapadi complete'; h.classList.add('done');
+      h.innerHTML = '<span class="lbl">Seven blessings · Saptapadi complete<span class="hi" lang="hi">सप्तपदी पूर्ण</span></span>'; h.classList.add('done');
       setTimeout(() => h.hidden = true, 3600);
     }
   }
@@ -1145,7 +1168,7 @@ document.querySelectorAll('[data-bless]').forEach(z => z.addEventListener('click
   const set = v => btn.style.setProperty('--p', v.toFixed(3));
   function complete() {
     if (done) return; done = true; set(1); btn.classList.add('lit');
-    label.textContent = 'Your diya is lit'; chime(1); setTimeout(() => chime(.6), 420);
+    label.innerHTML = 'Your diya is lit<span class="hi" lang="hi">आपका दीया जल गया</span>'; chime(1); setTimeout(() => chime(.6), 420);
     const r = btn.getBoundingClientRect(); fx.burst(r.left + r.width / 2, r.top + r.height / 2, 90, 1.5);
     setTimeout(() => go('finale'), 2000);
   }
