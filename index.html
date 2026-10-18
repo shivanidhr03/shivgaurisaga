@@ -722,7 +722,7 @@ async function play() {
   try { await music.play(); setSound(true); } catch (_) { setSound(false); }
 }
 soundBtn.addEventListener('click', () => {
-  if (music.paused) { if (mix && mix.ctx) { mix.ctx.resume(); mix.gm.gain.value = 0.9; } play(); }
+  if (music.paused) { music.muted = false; play(); }
   else { music.pause(); setSound(false); }
 });
 
@@ -934,51 +934,35 @@ document.querySelectorAll('#closing .actions a[href^="#"]').forEach(a => a.addEv
   } else start();
 })();
 
-/* open the gates: the shankh sounds, the seal breaks, the doors part, and the music takes over */
+/* open the gates: the shankh sounds alone; when it completes, Dheemta Dheemta begins */
 const gate = document.getElementById('gate');
 const shankh = document.getElementById('shankh');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-let mix = null;   // Web Audio gains: phones ignore <audio>.volume, gain nodes work everywhere
-function setupMix() {
-  if (mix) return mix;
-  try {
-    const AC = window.AudioContext || window.webkitAudioContext;
-    const ctx = new AC();
-    const gm = ctx.createGain(), gs = ctx.createGain();
-    ctx.createMediaElementSource(music).connect(gm).connect(ctx.destination);
-    ctx.createMediaElementSource(shankh).connect(gs).connect(ctx.destination);
-    mix = { ctx, gm, gs };
-  } catch (_) { mix = { ctx: null }; }
-  return mix;
-}
-function ramp(g, to, secs) {
-  if (!mix || !mix.ctx) return;
-  const now = mix.ctx.currentTime;
-  g.gain.cancelScheduledValues(now);
-  g.gain.setValueAtTime(g.gain.value, now);
-  g.gain.linearRampToValueAtTime(to, now + secs);
-}
+const mix = null;   // plain <audio> playback: plays on iPhones even when the silent switch is on
 let opened = false;
 document.getElementById('openGate').addEventListener('click', () => {
   if (opened) return; opened = true;
   try { const el = document.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el)?.catch?.(() => {}); } catch (_) {}
-  const m = setupMix();
-  if (m.ctx) { m.ctx.resume(); m.gs.gain.value = 1; m.gm.gain.value = 0; }
-  gate.classList.add('sounding');
+  // unlock the music inside this tap (phones only allow sound that starts from a tap), then hold it silent
+  try {
+    music.muted = true;
+    const p = music.play();
+    if (p && p.then) p.then(() => { music.pause(); music.currentTime = 0; music.muted = false; }).catch(() => { music.muted = false; });
+    else { music.pause(); music.muted = false; }
+  } catch (_) {}
   try { shankh.currentTime = 0; shankh.play().catch(() => {}); } catch (_) {}
-  // the music is started inside the same tap (phones require it) but held silent until the shankh fades
-  try { music.currentTime = 0; music.play().then(() => setSound(true)).catch(() => {}); if (!m.ctx) music.pause(); } catch (_) {}
+  gate.classList.add('sounding');
   setTimeout(() => gate.classList.add('opening'), reduce ? 200 : 2200);
-  // the shankh sounds alone; the moment it completes, Dheemta Dheemta begins from its first note
   let handedOver = false;
   const handOver = () => {
     if (handedOver) return; handedOver = true;
-    try { music.currentTime = 0; } catch (_) {}
-    if (m.ctx) { m.gs.gain.value = 0; ramp(m.gm, 0.9, 0.5); if (music.paused) play(); }
-    else { play(); }
+    try { shankh.pause(); } catch (_) {}
+    try { music.muted = false; music.currentTime = 0; } catch (_) {}
+    play();
   };
   shankh.addEventListener('ended', handOver, { once: true });
-  setTimeout(handOver, reduce ? 300 : 8200);   // safety net if 'ended' never fires
+  shankh.addEventListener('error', handOver, { once: true });
+  setTimeout(handOver, reduce ? 300 : 8000);   // safety net if 'ended' never fires
   setTimeout(() => go('ganesh'), reduce ? 400 : 4200);
 });
 </script>
