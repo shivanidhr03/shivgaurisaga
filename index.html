@@ -643,7 +643,7 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 <button class="sound" id="sound" type="button" aria-label="Play music" aria-pressed="false">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path id="snd-icon" d="M9 18V6l10-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm10-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
 </button>
-<audio id="music" src="music.mp3" loop preload="auto"></audio>
+<audio id="music" src="saga.mp3" preload="auto"></audio>
 <audio id="shankh" src="shankh.mp3" preload="auto"></audio>
 <audio id="chime" src="chime.mp3" preload="auto"></audio>
 
@@ -1105,11 +1105,11 @@ document.querySelectorAll('[data-bless]').forEach(z => z.addEventListener('click
   const x = ev.clientX || innerWidth / 2, y = ev.clientY || innerHeight * .3;
   const kind = z.dataset.bless;
   if (kind === 'ganesh') {
-    fx.burst(x, y, 40, 1.1); chime();
+    fx.burst(x, y, 40, 1.1); try { navigator.vibrate && navigator.vibrate(18); } catch (_) {}
     const h = hints.ganesh; h.textContent = 'Ganesha blesses your path'; h.classList.add('done'); setTimeout(() => h.hidden = true, 2600);
   } else if (kind === 'chakra') {
     const r = document.getElementById('radiance'); r.classList.remove('go'); void r.offsetWidth; r.classList.add('go');
-    fx.burst(x, y, 18, .7); chime();
+    fx.burst(x, y, 18, .7); try { navigator.vibrate && navigator.vibrate(18); } catch (_) {}
     const h = hints.chakra; h.textContent = 'The Shree Chakra glows for you'; h.classList.add('done'); setTimeout(() => h.hidden = true, 2800);
   } else if (kind === 'petals') {
     petalCount++; fx.burst(x, y, 30, 1);
@@ -1178,35 +1178,20 @@ window.onPage = id => {
 };
 document.getElementById('relive').addEventListener('click', () => location.reload());
 
-/* open the gates: the shankh sounds alone; when it completes, Dheemta Dheemta begins */
+/* open the gates: one tap starts the shankh, which flows straight into Dheemta Dheemta */
 const gate = document.getElementById('gate');
-const shankh = document.getElementById('shankh');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mix = null;   // plain <audio> playback: plays on iPhones even when the silent switch is on
+const MUSIC_AT = 7.72;            // where Dheemta Dheemta begins inside saga.mp3
+// after the first play-through, loop only the music (never the shankh again)
+music.addEventListener('ended', () => { try { music.currentTime = MUSIC_AT; music.play().catch(() => {}); } catch (_) {} });
 let opened = false;
 document.getElementById('openGate').addEventListener('click', () => {
   if (opened) return; opened = true;
   try { const el = document.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen)?.call(el)?.catch?.(() => {}); } catch (_) {}
-  // unlock the music inside this tap (phones only allow sound that starts from a tap), then hold it silent
-  try {
-    music.muted = true;
-    const p = music.play();
-    if (p && p.then) p.then(() => { music.pause(); music.currentTime = 0; music.muted = false; }).catch(() => { music.muted = false; });
-    else { music.pause(); music.muted = false; }
-  } catch (_) {}
-  try { shankh.currentTime = 0; shankh.play().catch(() => {}); } catch (_) {}
+  try { music.muted = false; music.currentTime = 0; } catch (_) {}
+  play();
   gate.classList.add('sounding');
   setTimeout(() => gate.classList.add('opening'), reduce ? 200 : 2200);
-  let handedOver = false;
-  const handOver = () => {
-    if (handedOver) return; handedOver = true;
-    try { shankh.pause(); } catch (_) {}
-    try { music.muted = false; music.currentTime = 0; } catch (_) {}
-    play();
-  };
-  shankh.addEventListener('ended', handOver, { once: true });
-  shankh.addEventListener('error', handOver, { once: true });
-  setTimeout(handOver, reduce ? 300 : 8000);   // safety net if 'ended' never fires
   setTimeout(() => go('ganesh'), reduce ? 400 : 4200);
 });
 </script>
