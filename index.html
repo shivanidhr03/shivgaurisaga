@@ -342,11 +342,14 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 2.1rem; letter-sp
 .shankh-lock:focus-visible { outline: 3px solid var(--saffron); outline-offset: 8px; }
 @keyframes lockGlow { 50% { box-shadow: 0 0 0 5px #d4a64e, 0 0 0 8px rgba(107, 20, 36, .85), 0 0 46px 14px rgba(255, 214, 140, .75), 0 14px 34px rgba(30, 10, 2, .55); } }
 .lock-label {
-  position: absolute; left: 50%; top: calc(46% + 82px); transform: translateX(-50%); z-index: 3; white-space: nowrap;
+  position: absolute; left: 50%; top: calc(46% - 84px); transform: translate(-50%, -100%); z-index: 3; white-space: nowrap;
   font-family: var(--display); font-size: .74rem; letter-spacing: .18em; text-transform: uppercase;
   color: #fff4dc; background: rgba(70, 14, 22, .82); border: 1px solid var(--gold-lite); padding: .4rem .85rem; border-radius: 999px;
   transition: opacity .6s ease;
 }
+/* shorter phones: lift the shankh lock so the welcome scroll never sits under it */
+@media (max-height: 800px) { .shankh-lock, .seal { top: 38%; } .lock-label { top: calc(38% - 80px); } }
+@media (max-height: 700px) { .seal { top: 34%; } .shankh-lock { top: 34%; width: 100px; height: 100px; } .shankh-lock svg { width: 66px; height: 82px; } .lock-label { top: calc(34% - 70px); } }
 #gate.sounding .shankh-lock { transform: translate(-50%, -50%) scale(1.12); animation: none;
   box-shadow: 0 0 0 5px #d4a64e, 0 0 0 8px rgba(107, 20, 36, .85), 0 0 90px 36px rgba(255, 222, 150, .9); }
 #gate.sounding .lock-label { opacity: 0; }
